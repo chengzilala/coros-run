@@ -1,0 +1,832 @@
+<!doctype html>
+<html lang="zh-CN" data-variant="now">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>跑不快 · 看板风格对比稿</title>
+<style>
+/* ============================================================
+ * 看板风格对比稿（只用于看效果，不接入正式页面）
+ * 三种写法：now = 现状 / a = 焦点式 / b = 数据流
+ * 数据全部为示例数据
+ * ============================================================ */
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  -webkit-font-smoothing:antialiased;
+  transition:background .3s ease,color .3s ease;
+}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+h1,h2,h3,h4{margin:0}
+img{display:block}
+
+/* ---------- 三套变量 ---------- */
+html[data-variant="now"]{
+  --bg:#08090b; --panel:#101215; --panel2:#171a1e; --line:#23272d;
+  --text:#f4f5f6; --text2:#c9ced4; --muted:#8b929a;
+  --accent:#ff5a1f; --accent2:#ff8a4d; --blue:#58a6ff; --good:#3fb950;
+  --radius:0px; --card-shadow:none; --nav-bg:rgba(8,9,11,.86);
+  --font-num:"DIN Alternate","SF Pro Display",-apple-system,sans-serif;
+  --grid:#1e252e; --tooltip-bg:#171a1e;
+}
+html[data-variant="a"]{
+  --bg:#05070a; --panel:#0c0f14; --panel2:#12161c; --line:#1b2028;
+  --text:#f2f4f6; --text2:#c8ced6; --muted:#828a94;
+  --accent:#ff5a1f; --accent2:#ff8a4d; --blue:#6b7280; --good:#4ade80;
+  --radius:16px; --card-shadow:0 14px 34px rgba(0,0,0,.32);
+  --font-num:"DIN Alternate","SF Pro Display",-apple-system,sans-serif;
+  --grid:#1b2028; --tooltip-bg:#151a21;
+}
+html[data-variant="b"]{
+  --bg:#f3f4f6; --panel:#ffffff; --panel2:#f7f8fa; --line:#e5e7eb;
+  --text:#111827; --text2:#374151; --muted:#6b7280;
+  --accent:#f2620a; --accent2:#d9641a; --blue:#2563eb; --good:#16a34a;
+  --radius:14px; --card-shadow:0 1px 2px rgba(16,24,40,.05),0 1px 3px rgba(16,24,40,.04);
+  --font-num:"DIN Alternate","SF Pro Display",-apple-system,sans-serif;
+  --grid:#eef0f3; --tooltip-bg:#ffffff;
+}
+
+/* ---------- 对比稿工具条 ---------- */
+.toolbar{
+  position:sticky;top:0;z-index:100;
+  display:flex;align-items:center;gap:18px;
+  padding:10px 22px;background:#0b0d10;color:#e5e7eb;
+  border-bottom:1px solid #1f242b;
+  font-size:13px;
+}
+.tb-left{display:flex;align-items:baseline;gap:8px;flex:0 0 auto}
+.tb-left b{font-size:14px;letter-spacing:.04em}
+.tb-left span{color:#8b929a;font-size:12px}
+.tabs{display:flex;gap:6px;background:#14181d;padding:3px;border-radius:10px;border:1px solid #232a33}
+.tabs button{padding:6px 14px;border-radius:7px;color:#9aa3ad;font-size:12.5px;transition:.18s;white-space:nowrap}
+.tabs button:hover{color:#e5e7eb}
+.tabs button.on{background:#ff5a1f;color:#fff;font-weight:600}
+.tb-note{color:#8b929a;font-size:12px;line-height:1.6;flex:1;text-align:right}
+
+/* ---------- 画布 ---------- */
+.stage{padding:22px 18px 60px}
+.app{max-width:1180px;margin:0 auto}
+.demo-tag{
+  display:inline-block;margin-bottom:10px;padding:2px 8px;border-radius:6px;
+  font-size:11px;letter-spacing:.06em;color:var(--muted);
+  border:1px solid var(--line);
+}
+
+/* ---------- 顶部：三种形态 ---------- */
+.hero{position:relative;overflow:hidden;margin-bottom:16px}
+.hero--now,.hero--a,.hero--b{display:none}
+html[data-variant="now"] .hero--now{display:flex}
+html[data-variant="a"] .hero--a{display:grid}
+html[data-variant="b"] .hero--b{display:grid}
+
+/* 现状：摄影首屏 + 一排按钮 */
+.hero--now{
+  flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:center;
+  min-height:296px;padding:24px 22px 18px;border:0;border-radius:0;
+  background:#0b0c0e url("https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=lone%20runner%20on%20an%20empty%20city%20road%20at%20dawn%2C%20shot%20from%20behind%2C%20warm%20orange%20sunrise%20haze%2C%20cinematic%2035mm%20film%20photography%2C%20muted%20colors%2C%20shallow%20depth%20of%20field%2C%20no%20text&image_size=landscape_16_9") center 38%/cover no-repeat;
+  box-shadow:0 18px 44px rgba(0,0,0,.24);
+}
+.hero--now::before{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(6,8,10,.32) 0%,rgba(6,8,10,.5) 42%,rgba(6,8,10,.88) 100%);
+}
+.hero--now > *{position:relative;z-index:1}
+.hero-main{display:flex;gap:14px;align-items:center;min-width:0;flex:1 1 260px}
+.avatar{
+  width:58px;height:58px;border-radius:50%;flex:0 0 auto;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--accent);color:#fff;font-size:24px;font-weight:700;
+  box-shadow:0 0 0 1px rgba(255,255,255,.24);
+}
+.hero--now h1{color:#fff;font-size:clamp(26px,3.6vw,42px);font-weight:700;letter-spacing:.01em}
+.hero--now .sub{color:rgba(255,255,255,.72);font-size:13px;margin-top:4px}
+.hero-side{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;flex:0 0 auto}
+.hero-btn{
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.26);color:#fff;
+  border-radius:2px;padding:5px 12px;font-size:13.5px;letter-spacing:.06em;line-height:1.5;
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+}
+.hero-btn:hover{background:var(--accent);border-color:var(--accent)}
+.hero--now .hero-meta{display:flex;gap:8px;flex-wrap:wrap;flex:1 1 100%}
+.hero--now .pill{
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);
+  color:rgba(255,255,255,.72);border-radius:2px;padding:5px 11px;font-size:12px;
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+}
+.hero--now .pill b{color:#fff;font-weight:600}
+
+/* A：焦点式首屏（恢复环 + 核心数字 + 本周柱） */
+.hero--a{
+  grid-template-columns:190px minmax(0,1fr) 210px;gap:34px;align-items:center;
+  padding:30px 32px;background:
+    radial-gradient(600px 240px at 8% 0%,rgba(255,90,31,.10),transparent 62%),
+    linear-gradient(180deg,#0e1218,#0a0d12);
+  border:1px solid var(--line);border-radius:var(--radius);
+  box-shadow:var(--card-shadow);
+}
+.a-ring{position:relative;width:164px;height:164px;justify-self:center}
+.a-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring-bg{fill:none;stroke:#1b2028;stroke-width:8}
+.ring-fg{
+  fill:none;stroke:var(--accent);stroke-width:8;stroke-linecap:round;
+  filter:drop-shadow(0 0 8px rgba(255,90,31,.55));
+}
+.a-ring-num{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:2px;
+}
+.a-ring-num b{font-family:var(--font-num);font-size:48px;line-height:1;letter-spacing:-.02em}
+.a-ring-num span{font-size:11.5px;letter-spacing:.18em;color:var(--muted)}
+.a-label{font-size:11px;letter-spacing:.18em;color:var(--accent);font-weight:700;margin-bottom:8px}
+.hero--a h1{font-size:clamp(24px,2.6vw,34px);font-weight:700;line-height:1.2;letter-spacing:.01em}
+.hero--a .a-desc{color:var(--muted);font-size:13px;line-height:1.7;margin:8px 0 18px;max-width:420px}
+.a-hero-stats{display:flex;gap:38px;flex-wrap:wrap}
+.a-hero-stats b{display:block;font-family:var(--font-num);font-size:28px;line-height:1.05;letter-spacing:-.01em}
+.a-hero-stats b small{font-size:12px;color:var(--muted);font-weight:500;margin-left:3px;letter-spacing:0}
+.a-hero-stats span{display:block;margin-top:5px;color:var(--muted);font-size:11.5px;letter-spacing:.06em}
+.a-hero-side{display:flex;flex-direction:column;gap:12px;align-items:stretch}
+.a-week-label{font-size:11px;letter-spacing:.18em;color:var(--muted)}
+.a-week{display:flex;align-items:flex-end;gap:6px;height:96px}
+.a-week .d{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:6px}
+.a-week i{width:100%;background:#242a33;border-radius:3px 3px 0 0}
+.a-week .d.has i{background:linear-gradient(180deg,var(--accent),rgba(255,90,31,.42))}
+.a-week em{font-style:normal;display:block;text-align:center;font-size:10.5px;color:var(--muted)}
+.a-cta{
+  margin-top:6px;padding:9px 12px;border-radius:8px;font-size:12.5px;font-weight:600;
+  background:rgba(255,90,31,.14);color:var(--accent2);border:1px solid rgba(255,90,31,.3);
+}
+.a-cta:hover{background:var(--accent);color:#fff}
+
+/* B：数据流首屏（身份条 + 周条） */
+.hero--b{
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+  box-shadow:var(--card-shadow);padding:18px 20px;
+  display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px 24px;align-items:center;
+}
+.b-id{display:flex;align-items:center;gap:12px;min-width:0}
+.b-id .avatar{
+  width:42px;height:42px;font-size:17px;border-radius:12px;
+  background:linear-gradient(135deg,#f2620a,#ff8a4d);color:#fff;box-shadow:none;
+}
+.hero--b h1{font-size:19px;font-weight:700;letter-spacing:.01em}
+.hero--b .sub{color:var(--muted);font-size:12px;margin-top:3px}
+.b-chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.chip{
+  padding:5px 10px;border-radius:999px;font-size:12px;color:var(--text2);
+  background:var(--panel2);border:1px solid var(--line);white-space:nowrap;
+}
+.chip--good{color:var(--good);background:rgba(22,163,74,.08);border-color:rgba(22,163,74,.22)}
+.b-nav{grid-column:1/-1;display:flex;gap:4px;border-top:1px solid var(--line);padding-top:12px}
+.b-nav button{padding:5px 12px;border-radius:8px;font-size:12.5px;color:var(--muted)}
+.b-nav button.on{background:var(--panel2);color:var(--text);font-weight:600}
+.b-week{grid-column:1/-1;display:flex;gap:8px;align-items:flex-end;height:72px;padding-top:4px}
+.b-week .d{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:5px}
+.b-week i{width:100%;max-width:26px;background:#f1e4da;border-radius:4px 4px 2px 2px}
+.b-week .d.has i{background:linear-gradient(180deg,#f2620a,#ffb185)}
+.b-week em{font-style:normal;font-size:10.5px;color:var(--muted)}
+
+/* ---------- KPI ---------- */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);margin-bottom:16px}
+.kpi{position:relative;min-width:0}
+.kpi .k{color:var(--muted);font-size:12.5px;letter-spacing:.05em}
+.kpi .v{
+  font-family:var(--font-num);font-variant-numeric:tabular-nums;
+  margin-top:8px;line-height:1;letter-spacing:-.02em;
+}
+.kpi .v small{font-size:12.5px;color:var(--muted);font-weight:500;margin-left:3px;letter-spacing:0}
+.kpi-foot{display:none}
+.delta{
+  display:none;align-items:center;gap:3px;font-size:11.5px;font-weight:600;
+  padding:2px 7px;border-radius:999px;white-space:nowrap;
+}
+.delta.up{color:var(--good);background:rgba(63,185,80,.12)}
+.delta.down{color:var(--accent2);background:rgba(255,90,31,.12)}
+.spark{display:flex;align-items:flex-end;gap:2px;height:22px;margin-left:auto}
+.spark i{width:4px;background:var(--line);border-radius:1px}
+.spark i.on{background:var(--accent)}
+
+/* 现状 KPI：上下细线 + 竖分隔，大数字 */
+html[data-variant="now"] .kpis{
+  gap:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:18px;
+}
+html[data-variant="now"] .kpi{
+  border-right:1px solid var(--line);padding:24px 18px 22px;transition:background .22s ease;
+}
+html[data-variant="now"] .kpi:last-child{border-right:0}
+html[data-variant="now"] .kpi:hover{background:rgba(255,90,31,.07)}
+html[data-variant="now"] .kpi .v{font-size:clamp(26px,3.6vw,44px);font-weight:700}
+
+/* A KPI：独立玻璃卡 */
+html[data-variant="a"] .kpis{gap:12px}
+html[data-variant="a"] .kpi{
+  background:linear-gradient(180deg,#10141a,#0c0f14);
+  border:1px solid var(--line);border-radius:14px;padding:16px 18px 14px;
+}
+html[data-variant="a"] .kpi .v{font-size:clamp(28px,3vw,38px);font-weight:700}
+html[data-variant="a"] .kpi-foot{display:flex;align-items:center;gap:8px;margin-top:12px}
+html[data-variant="a"] .delta{display:inline-flex}
+html[data-variant="a"] .kpi .k{font-size:11px;letter-spacing:.12em}
+
+/* B KPI：白卡 + 环比 + sparkline */
+html[data-variant="b"] .kpis{gap:12px}
+html[data-variant="b"] .kpi{
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+  padding:15px 16px 13px;box-shadow:var(--card-shadow);
+}
+html[data-variant="b"] .kpi .v{font-size:clamp(24px,2.6vw,32px);font-weight:700}
+html[data-variant="b"] .kpi-foot{display:flex;align-items:center;gap:8px;margin-top:10px}
+html[data-variant="b"] .delta{display:inline-flex}
+html[data-variant="b"] .kpi .k{font-size:11px;letter-spacing:.1em}
+
+/* ---------- 卡片 ---------- */
+.card{
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+  padding:18px 18px 14px;box-shadow:var(--card-shadow);
+  transition:background .3s ease,border-color .3s ease;
+}
+.card h3{
+  display:flex;flex-wrap:wrap;align-items:center;gap:0;
+  font-weight:700;letter-spacing:.01em;color:var(--text);
+}
+.eyebrow{display:none}
+.hint{color:var(--muted);font-size:12px;font-weight:400;margin-left:8px}
+.chart{width:100%;height:260px;min-width:0}
+.chart-foot{color:var(--muted);font-size:11.5px;line-height:1.65;margin-top:10px;padding-top:10px}
+.foot-short{display:none}
+html[data-variant="a"] .foot-long,
+html[data-variant="b"] .foot-long{display:none}
+html[data-variant="a"] .foot-short,
+html[data-variant="b"] .foot-short{display:block}
+
+/* 现状卡片：直角、细线、竖条标题 */
+html[data-variant="now"] .card{padding:18px 18px 14px}
+html[data-variant="now"] .card h3{font-size:19px;font-weight:700}
+html[data-variant="now"] .card h3::before{
+  content:"";width:2px;height:15px;background:var(--accent);margin-right:10px;flex:0 0 auto;
+}
+html[data-variant="now"] .chart-foot{border-top:1px dashed var(--line)}
+
+/* A/B 卡片：眉标 + 标题，更松的留白 */
+html[data-variant="a"] .card,
+html[data-variant="b"] .card{padding:20px 20px 16px}
+html[data-variant="a"] .card h3,
+html[data-variant="b"] .card h3{font-size:17px;font-weight:700;gap:4px}
+html[data-variant="a"] .eyebrow,
+html[data-variant="b"] .eyebrow{
+  display:block;flex:0 0 100%;
+  font-size:10px;font-weight:700;letter-spacing:.2em;color:var(--accent);
+  margin-bottom:5px;
+}
+html[data-variant="a"] .card--primary{
+  background:linear-gradient(180deg,#11151b,#0b0e13);
+  border-color:#242b34;
+}
+
+/* ---------- 看板栅格 ---------- */
+.board{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:16px;align-items:start}
+.board-main{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+.card--wide{grid-column:1/-1}
+html[data-variant="now"] .board-main{display:block}
+html[data-variant="now"] .board-main > .card{margin-bottom:16px}
+html[data-variant="now"] .board-side .card{position:static}
+
+/* ---------- 热力图 ---------- */
+.cal-wrap{overflow-x:auto;padding-bottom:2px}
+.cal{display:grid;grid-auto-flow:column;grid-template-rows:repeat(7,10px);gap:3px;min-width:0}
+.cal i{width:100%;min-width:7px;height:10px;border-radius:1px;background:var(--line);display:block}
+.cal i.l1{background:var(--h1)}
+.cal i.l2{background:var(--h2)}
+.cal i.l3{background:var(--h3)}
+.cal i.l4{background:var(--h4)}
+html[data-variant="now"]{--h1:#3a2013;--h2:#6b3416;--h3:#a3471a;--h4:#ff6b1a}
+html[data-variant="a"]{--h1:#2a1c14;--h2:#5c2c15;--h3:#a8431a;--h4:#ff5a1f}
+html[data-variant="b"]{--h1:#fde7d8;--h2:#fbc4a4;--h3:#f78d5c;--h4:#f2620a}
+html[data-variant="b"] .cal i{background:#eef0f3}
+html[data-variant="a"] .cal i{background:#171c23}
+.cal-legend{display:flex;align-items:center;gap:5px;font-size:10.5px;color:var(--muted);margin-left:auto}
+.cal-legend i{width:9px;height:9px;border-radius:2px;display:inline-block}
+
+/* ---------- 活动列表 ---------- */
+.act-list{display:flex;flex-direction:column}
+.act{
+  display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;
+  padding:11px 12px;cursor:pointer;border-radius:2px;
+}
+.act .date{color:var(--muted);font-size:12px;white-space:nowrap}
+.act .title{font-size:13.5px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.act .title .badge{background:rgba(255,90,31,.14);color:var(--accent2);border-radius:4px;padding:1px 6px;font-size:10.5px;margin-left:6px}
+.act .right{text-align:right}
+.act .dist{font-family:var(--font-num);font-size:15px;font-weight:700;font-variant-numeric:tabular-nums}
+.act .pace{color:var(--muted);font-size:11.5px}
+
+html[data-variant="now"] .act{background:var(--panel2);border:1px solid transparent;margin-bottom:8px}
+html[data-variant="now"] .act:hover{border-color:var(--accent);background:#191d21}
+html[data-variant="a"] .act{border-bottom:1px solid var(--line)}
+html[data-variant="a"] .act:last-child{border-bottom:0}
+html[data-variant="a"] .act:hover{background:rgba(255,255,255,.03)}
+html[data-variant="b"] .act{border-radius:10px;border-bottom:1px solid var(--line)}
+html[data-variant="b"] .act:last-child{border-bottom:0}
+html[data-variant="b"] .act:hover{background:var(--panel2)}
+
+/* ---------- 底部说明 ---------- */
+.demo-foot{
+  margin-top:18px;color:var(--muted);font-size:11.5px;line-height:1.7;
+  display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+}
+
+/* ---------- 响应式 ---------- */
+@media (max-width:1080px){
+  .hero--a{grid-template-columns:150px minmax(0,1fr);gap:24px}
+  .a-hero-side{grid-column:1/-1;flex-direction:row;align-items:flex-end;gap:18px}
+  .a-week{flex:1}
+  .a-ring{width:140px;height:140px}
+}
+@media (max-width:900px){
+  .toolbar{flex-wrap:wrap;gap:10px;padding:10px 14px}
+  .tb-note{flex:1 1 100%;text-align:left;font-size:11.5px}
+  .stage{padding:16px 12px 44px}
+  .board{grid-template-columns:1fr}
+  .board-main{grid-template-columns:1fr}
+  .card--wide{grid-column:auto}
+  html[data-variant="now"] .hero--now{min-height:250px;padding:18px 16px 14px}
+  .hero--a{grid-template-columns:1fr;padding:22px 20px;gap:18px}
+  .a-ring{width:130px;height:130px}
+  .a-hero-side{grid-column:auto}
+  .hero--b{grid-template-columns:1fr}
+  .b-chips{justify-content:flex-start}
+  .b-week{grid-column:auto}
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  html[data-variant="now"] .kpis{gap:0}
+  html[data-variant="now"] .kpi:nth-child(2n){border-right:0}
+  .chart{height:230px}
+}
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <div class="tb-left"><b>跑不快</b><span>看板风格对比稿</span></div>
+  <div class="tabs" id="tabs">
+    <button type="button" data-v="now" class="on">现状</button>
+    <button type="button" data-v="a">A · 焦点式</button>
+    <button type="button" data-v="b">B · 数据流</button>
+  </div>
+  <div class="tb-note" id="note"></div>
+</div>
+
+<div class="stage">
+  <div class="app">
+    <div class="demo-tag">示例数据 · 仅用于风格对比</div>
+
+    <!-- ========== 顶部 ========== -->
+    <!-- 现状 -->
+    <header class="hero hero--now">
+      <div class="hero-main">
+        <div class="avatar">跑</div>
+        <div>
+          <h1>跑者 Chester</h1>
+          <div class="sub">COROS PACE 3 · 今天 07:12 同步</div>
+        </div>
+      </div>
+      <div class="hero-side">
+        <button class="hero-btn">登录</button>
+        <button class="hero-btn">🏃 教练</button>
+        <button class="hero-btn">⏱ 配速计算</button>
+        <button class="hero-btn">📚 知识库</button>
+        <button class="hero-btn">📝 思考</button>
+        <button class="hero-btn">🌐 官网</button>
+        <button class="hero-btn">? 帮助</button>
+        <button class="hero-btn">⚙ 我的账户</button>
+        <button class="hero-btn">📸 打卡图</button>
+        <button class="hero-btn">🌙</button>
+      </div>
+      <div class="hero-meta">
+        <span class="pill">VO2max <b>52</b></span>
+        <span class="pill">跑力值 <b>48.6</b></span>
+        <span class="pill">阈值配速 <b>4'38"</b></span>
+        <span class="pill">全马预测 <b>3:42:10</b></span>
+      </div>
+    </header>
+
+    <!-- A：焦点式 -->
+    <header class="hero hero--a">
+      <div class="a-ring">
+        <svg viewBox="0 0 120 120" aria-hidden="true">
+          <circle class="ring-bg" cx="60" cy="60" r="52"></circle>
+          <circle class="ring-fg" cx="60" cy="60" r="52" stroke-dasharray="326.7" stroke-dashoffset="71.9"></circle>
+        </svg>
+        <div class="a-ring-num"><b>78</b><span>恢复度</span></div>
+      </div>
+      <div class="a-hero-mid">
+        <div class="a-label">今日状态 · 可以正常训练</div>
+        <h1>先跑一场轻松的</h1>
+        <p class="a-desc">HRV 平稳，静息心率 48。建议按计划完成 8 km 轻松跑，配速控制在 5'50" 左右。</p>
+        <div class="a-hero-stats">
+          <div><b>42.3<small>km</small></b><span>本周跑量</span></div>
+          <div><b>456</b><span>训练负荷</span></div>
+          <div><b>18<small>天</small></b><span>下场比赛</span></div>
+        </div>
+      </div>
+      <div class="a-hero-side">
+        <div class="a-week-label">近 7 天</div>
+        <div class="a-week" id="aWeek"></div>
+        <button class="a-cta">查看 AI 复盘 →</button>
+      </div>
+    </header>
+
+    <!-- B：数据流 -->
+    <header class="hero hero--b">
+      <div class="b-id">
+        <div class="avatar">跑</div>
+        <div>
+          <h1>跑者 Chester</h1>
+          <div class="sub">COROS PACE 3 · 今天 07:12 同步</div>
+        </div>
+      </div>
+      <div class="b-chips">
+        <span class="chip chip--good">● 状态良好</span>
+        <span class="chip">比赛倒计时 18 天</span>
+        <span class="chip">VO2max 52</span>
+        <span class="chip">全马预测 3:42:10</span>
+      </div>
+      <div class="b-nav">
+        <button class="on">概览</button>
+        <button>跑量</button>
+        <button>强度</button>
+        <button>活动</button>
+      </div>
+      <div class="b-week" id="bWeek"></div>
+    </header>
+
+    <!-- ========== KPI ========== -->
+    <section class="kpis">
+      <div class="kpi">
+        <div class="k">本周跑量</div>
+        <div class="v">42.3<small>km</small></div>
+        <div class="kpi-foot"><span class="delta up">↑ 12%</span><span class="spark"><i style="height:30%"></i><i style="height:55%"></i><i style="height:40%"></i><i class="on" style="height:78%"></i><i class="on" style="height:62%"></i><i class="on" style="height:100%"></i><i class="on" style="height:86%"></i></span></div>
+      </div>
+      <div class="kpi">
+        <div class="k">近 30 天</div>
+        <div class="v">186<small>km</small></div>
+        <div class="kpi-foot"><span class="delta up">↑ 6%</span><span class="spark"><i style="height:45%"></i><i style="height:52%"></i><i style="height:60%"></i><i style="height:50%"></i><i class="on" style="height:75%"></i><i class="on" style="height:88%"></i><i class="on" style="height:100%"></i></span></div>
+      </div>
+      <div class="kpi">
+        <div class="k">平均配速</div>
+        <div class="v">5'32"<small>/km</small></div>
+        <div class="kpi-foot"><span class="delta up">快了 4"</span><span class="spark"><i style="height:80%"></i><i style="height:72%"></i><i style="height:76%"></i><i style="height:58%"></i><i class="on" style="height:52%"></i><i class="on" style="height:48%"></i><i class="on" style="height:42%"></i></span></div>
+      </div>
+      <div class="kpi">
+        <div class="k">平均心率</div>
+        <div class="v">148<small>bpm</small></div>
+        <div class="kpi-foot"><span class="delta down">↓ 3 bpm</span><span class="spark"><i style="height:70%"></i><i style="height:64%"></i><i style="height:68%"></i><i style="height:58%"></i><i class="on" style="height:54%"></i><i class="on" style="height:50%"></i><i class="on" style="height:47%"></i></span></div>
+      </div>
+    </section>
+
+    <!-- ========== 看板 ========== -->
+    <div class="board">
+      <main class="board-main">
+
+        <section class="card card--wide card--primary">
+          <h3>
+            <span class="eyebrow">WEEKLY VOLUME</span>
+            <span class="t">跑量趋势</span><span class="hint">周</span>
+          </h3>
+          <div class="chart" id="chartVolume"></div>
+          <div class="chart-foot">
+            <span class="foot-long">虚线为近 12 周周均 41.2 km；柱状为跑量，折线为次数。</span>
+            <span class="foot-short">本周 42.3 km，比上周 +12%，高于 12 周均值 41.2 km。</span>
+          </div>
+        </section>
+
+        <section class="card">
+          <h3>
+            <span class="eyebrow">CONSISTENCY</span>
+            <span class="t">跑量日历</span><span class="hint">近半年</span>
+            <span class="cal-legend">少 <i style="background:var(--h1)"></i><i style="background:var(--h2)"></i><i style="background:var(--h3)"></i><i style="background:var(--h4)"></i> 多</span>
+          </h3>
+          <div class="cal-wrap"><div class="cal" id="cal"></div></div>
+          <div class="chart-foot">
+            <span class="foot-long">色深=当天跑量；空白为休息日。</span>
+            <span class="foot-short">近半年训练 96 天，最长连续 11 天。</span>
+          </div>
+        </section>
+
+        <section class="card">
+          <h3>
+            <span class="eyebrow">PACE &amp; HEART RATE</span>
+            <span class="t">配速 &amp; 心率</span><span class="hint">近 20 次</span>
+          </h3>
+          <div class="chart" id="chartPace"></div>
+          <div class="chart-foot">
+            <span class="foot-long">配速越低越好，心率越低越好；两条线分开看趋势。</span>
+            <span class="foot-short">同心率下配速提升 6 秒，状态在变好。</span>
+          </div>
+        </section>
+
+      </main>
+
+      <aside class="board-side">
+        <section class="card">
+          <h3>
+            <span class="eyebrow">RECENT ACTIVITIES</span>
+            <span class="t">活动列表</span><span class="hint">最近 5 次</span>
+          </h3>
+          <div class="act-list">
+            <div class="act">
+              <span class="date">11-02</span>
+              <span class="title">周末长距离<span class="badge">比赛</span></span>
+              <span class="right"><span class="dist">21.1 km</span><br><span class="pace">5'18" /km</span></span>
+            </div>
+            <div class="act">
+              <span class="date">10-31</span>
+              <span class="title">轻松跑</span>
+              <span class="right"><span class="dist">8.0 km</span><br><span class="pace">5'52" /km</span></span>
+            </div>
+            <div class="act">
+              <span class="date">10-29</span>
+              <span class="title">节奏跑 3×2km</span>
+              <span class="right"><span class="dist">12.4 km</span><br><span class="pace">4'41" /km</span></span>
+            </div>
+            <div class="act">
+              <span class="date">10-27</span>
+              <span class="title">恢复跑</span>
+              <span class="right"><span class="dist">6.2 km</span><br><span class="pace">6'10" /km</span></span>
+            </div>
+            <div class="act">
+              <span class="date">10-25</span>
+              <span class="title">间歇 6×800m</span>
+              <span class="right"><span class="dist">10.6 km</span><br><span class="pace">4'32" /km</span></span>
+            </div>
+          </div>
+        </section>
+      </aside>
+    </div>
+
+    <div class="demo-foot">
+      <span>参考对象：WHOOP（焦点式）· Strava / Apple Fitness（数据流）· Oura（留白）· Linear / Vercel（图表克制）</span>
+      <span>对比稿 v1 · 2026-11-03</span>
+    </div>
+  </div>
+</div>
+
+<script src="../web/lib/echarts.min.js"></script>
+<script>
+(function () {
+  "use strict";
+
+  var WEEKS = ["8/18","8/25","9/1","9/8","9/15","9/22","9/29","10/6","10/13","10/20","10/27"];
+  var VOL = [32.0,41.2,28.4,45.6,38.2,52.1,44.0,39.5,48.3,45.2,42.3];
+  var CNT = [4,5,3,5,4,6,5,4,5,5,4];
+  var PACE = [5.62,5.58,5.66,5.51,5.55,5.42,5.48,5.39,5.44,5.36,5.41,5.31,5.35,5.27,5.33,5.24,5.29,5.21,5.25,5.18];
+  var HR = [150,152,149,151,148,150,147,149,146,148,145,147,144,146,143,145,142,144,141,143];
+
+  var COLORS = {
+    now: { text:"#f4f5f6", muted:"#8b929a", grid:"#1e252e", accent:"#ff6b1a", blue:"#58a6ff", tooltipBg:"#171a1e" },
+    a:   { text:"#f2f4f6", muted:"#7d858f", grid:"#1b2028", accent:"#ff5a1f", blue:"#6b7280", tooltipBg:"#151a21" },
+    b:   { text:"#111827", muted:"#6b7280", grid:"#eef0f3", accent:"#f2620a", blue:"#2563eb", tooltipBg:"#ffffff" }
+  };
+
+  var NOTES = {
+    now: "现状：13 张卡片同权重、首屏是照片 + 10 个按钮、图表保持 ECharts 默认长相，视线没有落点。",
+    a: "A 焦点式：首屏换成「恢复度环 + 3 个核心数字 + 本周柱」，卡片分三级，橙色只做强调。参考 WHOOP / Oura。",
+    b: "B 数据流：浅色底 + 白卡，每个数字带环比和 sparkline，活动流更突出。参考 Strava / Apple Fitness。"
+  };
+
+  var volumeChart = null;
+  var paceChart = null;
+
+  function fmtPace(v) {
+    var m = Math.floor(v);
+    var s = Math.round((v - m) * 60);
+    if (s === 60) { m += 1; s = 0; }
+    return m + ":" + (s < 10 ? "0" + s : s);
+  }
+
+  function weekBars(el, heights, labels) {
+    el.innerHTML = heights.map(function (h, i) {
+      var hh = h ? Math.max(h * 0.68, 4) : 4;
+      return '<div class="d' + (h > 0 ? " has" : "") + '"><i style="height:' + hh + '%"></i><em>' +
+        labels[i] + "</em></div>";
+    }).join("");
+  }
+
+  function buildCalendar() {
+    var el = document.getElementById("cal");
+    var cells = [];
+    for (var i = 0; i < 26 * 7; i++) {
+      var seed = (i * 37 + Math.floor(i / 7) * 13) % 100;
+      var lvl = 0;
+      if (seed > 86) lvl = 4;
+      else if (seed > 70) lvl = 3;
+      else if (seed > 52) lvl = 2;
+      else if (seed > 34) lvl = 1;
+      cells.push('<i class="' + (lvl ? "l" + lvl : "") + '"></i>');
+    }
+    el.innerHTML = cells.join("");
+  }
+
+  function volumeOption(v) {
+    var c = COLORS[v];
+    var axisX = {
+      type: "category",
+      data: WEEKS,
+      axisLine: { lineStyle: { color: c.grid } },
+      axisTick: { show: false },
+      axisLabel: { color: c.muted, fontSize: 11, interval: v === "a" ? 1 : 0 },
+      splitLine: { show: false }
+    };
+    var axisY = {
+      type: "value",
+      axisLine: { show: false },
+      axisTick: { show: false },
+      axisLabel: { color: c.muted, fontSize: 11 },
+      splitLine: { lineStyle: { color: c.grid, type: v === "now" ? "solid" : "dashed" } }
+    };
+    var barColor = c.accent;
+    if (v === "a") {
+      barColor = new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+        { offset: 0, color: "#ff8a4d" },
+        { offset: 1, color: "rgba(255,90,31,.22)" }
+      ]);
+    }
+    return {
+      backgroundColor: "transparent",
+      animationDuration: 700,
+      grid: { left: 6, right: 10, top: 34, bottom: 2, containLabel: true },
+      tooltip: {
+        trigger: "axis",
+        backgroundColor: c.tooltipBg,
+        borderColor: c.grid,
+        textStyle: { color: c.text, fontSize: 12 }
+      },
+      legend: v === "a"
+        ? { show: false }
+        : {
+            data: ["跑量(km)", "次数"], right: 0, top: 0,
+            icon: "roundRect", itemWidth: 9, itemHeight: 9, itemGap: 14,
+            textStyle: { color: c.muted, fontSize: 11 }
+          },
+      xAxis: axisX,
+      yAxis: [axisY, { type: "value", show: false, splitLine: { show: false } }],
+      series: [
+        {
+          name: "跑量(km)",
+          type: "bar",
+          data: VOL,
+          barMaxWidth: v === "now" ? 26 : 22,
+          itemStyle: { color: barColor, borderRadius: v === "now" ? [0, 0, 0, 0] : [6, 6, 0, 0] },
+          markLine: {
+            silent: true, symbol: "none",
+            data: [{ yAxis: 41.2 }],
+            lineStyle: { type: "dashed", color: c.muted },
+            label: { formatter: "周均 41.2", color: c.muted, fontSize: 10, position: "insideEndTop" }
+          }
+        },
+        {
+          name: "次数",
+          type: "line",
+          yAxisIndex: 1,
+          data: CNT,
+          smooth: true,
+          symbol: "circle",
+          symbolSize: v === "now" ? 6 : 0,
+          lineStyle: { width: 2 },
+          itemStyle: { color: c.blue }
+        }
+      ]
+    };
+  }
+
+  function paceOption(v) {
+    var c = COLORS[v];
+    var axis = {
+      axisLine: { show: false },
+      axisTick: { show: false },
+      axisLabel: { color: c.muted, fontSize: 11 },
+      splitLine: { lineStyle: { color: c.grid, type: v === "now" ? "solid" : "dashed" } }
+    };
+    var labels = PACE.map(function (_, i) { return "第 " + (i + 1) + " 次"; });
+    var paceLine = {
+      name: "配速",
+      type: "line",
+      data: PACE,
+      smooth: true,
+      symbol: "circle",
+      symbolSize: v === "now" ? 5 : 0,
+      lineStyle: { width: v === "a" ? 2.5 : 2 },
+      itemStyle: { color: c.accent }
+    };
+    if (v === "a") {
+      paceLine.areaStyle = {
+        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+          { offset: 0, color: "rgba(255,90,31,.22)" },
+          { offset: 1, color: "rgba(255,90,31,0)" }
+        ])
+      };
+    }
+    return {
+      backgroundColor: "transparent",
+      animationDuration: 700,
+      grid: { left: 6, right: 8, top: 34, bottom: 2, containLabel: true },
+      tooltip: {
+        trigger: "axis",
+        backgroundColor: c.tooltipBg,
+        borderColor: c.grid,
+        textStyle: { color: c.text, fontSize: 12 }
+      },
+      legend: v === "a"
+        ? { show: false }
+        : {
+            data: ["配速", "心率"], right: 0, top: 0,
+            icon: "roundRect", itemWidth: 9, itemHeight: 9, itemGap: 14,
+            textStyle: { color: c.muted, fontSize: 11 }
+          },
+      xAxis: {
+        type: "category",
+        data: labels,
+        axisLine: { lineStyle: { color: c.grid } },
+        axisTick: { show: false },
+        axisLabel: { color: c.muted, fontSize: 11, interval: 4 },
+        splitLine: { show: false }
+      },
+      yAxis: [
+        Object.assign({}, axis, {
+          type: "value", inverse: true, min: 4.9, max: 6.0,
+          axisLabel: { color: c.muted, fontSize: 11, formatter: fmtPace }
+        }),
+        Object.assign({}, axis, {
+          type: "value", min: 120, max: 175, splitLine: { show: false }
+        })
+      ],
+      series: [
+        paceLine,
+        {
+          name: "心率",
+          type: "line",
+          yAxisIndex: 1,
+          data: HR,
+          smooth: true,
+          symbol: "circle",
+          symbolSize: v === "now" ? 5 : 0,
+          lineStyle: { width: 1.6 },
+          itemStyle: { color: v === "now" ? "#f85149" : c.blue }
+        }
+      ]
+    };
+  }
+
+  function renderCharts(v) {
+    var volEl = document.getElementById("chartVolume");
+    var paceEl = document.getElementById("chartPace");
+    if (volumeChart) { volumeChart.dispose(); volumeChart = null; }
+    if (paceChart) { paceChart.dispose(); paceChart = null; }
+    volumeChart = echarts.init(volEl, null, { renderer: "canvas" });
+    paceChart = echarts.init(paceEl, null, { renderer: "canvas" });
+    volumeChart.setOption(volumeOption(v));
+    paceChart.setOption(paceOption(v));
+  }
+
+  function apply(v) {
+    document.documentElement.setAttribute("data-variant", v);
+    document.getElementById("note").textContent = NOTES[v];
+    var btns = document.querySelectorAll("#tabs button");
+    for (var i = 0; i < btns.length; i++) {
+      btns[i].classList.toggle("on", btns[i].getAttribute("data-v") === v);
+    }
+    // 等布局稳定后再画图，保证宽度正确
+    window.requestAnimationFrame(function () {
+      renderCharts(v);
+      if (volumeChart) volumeChart.resize();
+      if (paceChart) paceChart.resize();
+    });
+  }
+
+  weekBars(document.getElementById("aWeek"),
+    [28, 54, 0, 72, 46, 92, 64], ["一", "二", "三", "四", "五", "六", "日"]);
+  weekBars(document.getElementById("bWeek"),
+    [42, 66, 0, 84, 58, 100, 72], ["周一", "周二", "周三", "周四", "周五", "周六", "周日"]);
+  buildCalendar();
+
+  var tabs = document.getElementById("tabs");
+  tabs.addEventListener("click", function (e) {
+    var btn = e.target.closest("button[data-v]");
+    if (!btn) return;
+    apply(btn.getAttribute("data-v"));
+  });
+
+  var resizeTimer = null;
+  window.addEventListener("resize", function () {
+    window.clearTimeout(resizeTimer);
+    resizeTimer = window.setTimeout(function () {
+      if (volumeChart) volumeChart.resize();
+      if (paceChart) paceChart.resize();
+    }, 120);
+  });
+
+  apply("now");
+})();
+</script>
+</body>
+</html>

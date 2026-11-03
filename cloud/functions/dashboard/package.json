@@ -1,0 +1,9 @@
+{
+  "name": "dashboard",
+  "version": "1.0.0",
+  "description": "对外版：返回本人看板数据（按调用者 uid 隔离）",
+  "main": "index.js",
+  "dependencies": {
+    "@cloudbase/node-sdk": "^2.9.0"
+  }
+}

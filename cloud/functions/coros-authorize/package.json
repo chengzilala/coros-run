@@ -1,0 +1,9 @@
+{
+  "name": "coros-authorize",
+  "version": "1.0.0",
+  "description": "对外版：生成高驰 OAuth 授权链接（动态注册 + PKCE）",
+  "main": "index.js",
+  "dependencies": {
+    "@cloudbase/node-sdk": "^2.9.0"
+  }
+}

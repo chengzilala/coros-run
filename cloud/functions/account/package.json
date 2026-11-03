@@ -1,0 +1,9 @@
+{
+  "name": "account",
+  "version": "1.0.0",
+  "description": "对外版：账户数据管理（查询高驰绑定状态 / 删除本人全部云端数据）",
+  "main": "index.js",
+  "dependencies": {
+    "@cloudbase/node-sdk": "^2.9.0"
+  }
+}

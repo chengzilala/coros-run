@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="1200" height="900" role="img" aria-label="AI 教练示意：对话气泡里的数据曲线">
+  <defs>
+    <linearGradient id="b3" x1="0" y1="0" x2="0.7" y2="1">
+      <stop offset="0" stop-color="#0b0e13"/>
+      <stop offset="1" stop-color="#161c26"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="900" fill="url(#b3)"/>
+
+  <!-- 气泡 -->
+  <path d="M250 230 h620 a56 56 0 0 1 56 56 v300 a56 56 0 0 1 -56 56 h-430 l-90 96 v-96 h-100 a56 56 0 0 1 -56 -56 v-300 a56 56 0 0 1 56 -56 z"
+        fill="none" stroke="#f2ede4" stroke-width="18"
+        stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- 气泡里的曲线 -->
+  <path d="M330 500 L440 420 L540 462 L650 350 L780 372"
+        fill="none" stroke="#f2ede4" stroke-width="16"
+        stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="780" cy="372" r="18" fill="#ff6b1a"/>
+
+  <!-- 气泡外的三条短句 -->
+  <g stroke="#f2ede4" stroke-opacity=".26" stroke-width="14" stroke-linecap="round">
+    <line x1="300" y1="800" x2="520" y2="800"/>
+    <line x1="566" y1="800" x2="700" y2="800"/>
+  </g>
+</svg>

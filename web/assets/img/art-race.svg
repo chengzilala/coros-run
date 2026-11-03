@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="1200" height="900" role="img" aria-label="比赛与 PB 示意：环形赛道冲向终点">
+  <defs>
+    <linearGradient id="b2" x1="0" y1="0" x2="0.7" y2="1">
+      <stop offset="0" stop-color="#0b0e13"/>
+      <stop offset="1" stop-color="#161c26"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="900" fill="url(#b2)"/>
+
+  <!-- 环形赛道 -->
+  <path d="M250 690 C130 560 190 390 360 356 S640 420 700 320 S700 170 880 186 S1080 350 980 500 S720 700 560 690 S380 770 250 690 Z"
+        fill="none" stroke="#f2ede4" stroke-width="18"
+        stroke-linecap="round" stroke-linejoin="round"
+        stroke-opacity=".9"/>
+
+  <!-- 终点门 -->
+  <g stroke="#f2ede4" stroke-width="14" stroke-linecap="round" stroke-opacity=".55">
+    <line x1="840" y1="250" x2="840" y2="470"/>
+    <line x1="1010" y1="250" x2="1010" y2="470"/>
+    <line x1="840" y1="250" x2="1010" y2="250"/>
+  </g>
+  <circle cx="880" cy="186" r="20" fill="#ff6b1a"/>
+</svg>

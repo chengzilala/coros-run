@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0d1117">
+<title>隐私政策 · 跑不快</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<script src="store.js"></script>
+<script>window.CorosStore && window.CorosStore.applyTheme();</script>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="theme-v2.css">
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="hero-main">
+      <a class="avatar cfg-back" href="./" title="返回看板">←</a>
+      <div>
+        <h1>隐私政策</h1>
+        <div class="sub">最后更新：2026-10-13</div>
+      </div>
+    </div>
+    <div class="hero-meta"><a class="pill" href="account.html">我的账户</a></div>
+  </header>
+
+  <section class="card">
+    <p class="tip">本站是一个<b>个人训练数据看板</b>：你把高驰（COROS）账号授权给本站后，本站帮你把训练数据整理成图表并生成中文 AI 复盘。我们承诺<b>只读、不修改</b>你的高驰数据，并尽最大努力保护你的隐私。请在使用前阅读以下说明。</p>
+  </section>
+
+  <section class="card">
+    <h3>1. 我们收集哪些数据</h3>
+    <ul class="tip">
+      <li><b>登录信息</b>：你登录所用的<b>邮箱地址</b>（用于接收验证码、识别账号）。登录由腾讯云 CloudBase 身份认证托管，我们不保存你的密码。</li>
+      <li><b>高驰授权凭据</b>：你授权后得到的高驰访问令牌（token），用于代表你读取训练数据。令牌在本站服务器上<b>加密存储</b>，不会明文保存。</li>
+      <li><b>训练数据</b>：从高驰官方接口（只读）读取的你的运动记录、体能指标、每日训练负荷等，用于生成看板与 AI 复盘。</li>
+      <li><b>AI 大模型 Key（由你自行填写）</b>：AI 复盘与教练使用<b>你自己的</b>大模型 Key。你在「我的账户」填入后，Key 会以<b>应用层加密</b>方式托管在本站服务器（按账号隔离），仅在你发起复盘 / 对话时于服务端解密使用；页面平时<b>只显示掩码</b>，只有你在账户页主动点「显示」时，服务端才把<b>你自己的这份</b> Key 明文回一次给你（用于核对 / 复制，不回写日志、不常驻页面）。你随时可一键清除。</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h3>2. 数据来源与授权方式</h3>
+    <p class="tip">数据来自<b>高驰官方 MCP 接口</b>，通过标准 OAuth 授权获取，权限为<b>只读</b>——本站<b>无法</b>修改、删除或代替你操作高驰账号。你可以随时在高驰 App 里撤销对本站的授权。</p>
+  </section>
+
+  <section class="card">
+    <h3>3. 数据用途</h3>
+    <p class="tip">仅用于：① 展示你自己的训练看板；② 生成中文 AI 复盘。我们<b>不会</b>把你的数据用于广告、出售或与上述无关的目的。</p>
+  </section>
+
+  <section class="card">
+    <h3>4. 数据存储与安全</h3>
+    <ul class="tip">
+      <li>训练数据保存在<b>腾讯云 CloudBase 云数据库</b>，并按账号隔离——<b>只有你自己的账号能读到自己的数据</b>。</li>
+      <li>高驰令牌等敏感字段<b>加密后</b>再入库；密钥不随代码公开。</li>
+      <li>本站<b>不采集</b>你的位置轨迹之外的额外信息，也<b>不接入</b>第三方统计或广告 SDK。</li>
+      <li>训练地点（城市 / 区县）由你的 GPS 坐标在<b>本机离线识别</b>（内置公开行政区划数据），<b>坐标不会发送给任何地图服务商</b>，也不调用在线地图服务。</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h3>5. 数据共享与第三方</h3>
+    <ul class="tip">
+      <li><b>AI 复盘 / 教练</b>：生成复盘或对话时，会把<b>本次分析所需的训练数据摘要</b>发送给<b>你自己配置</b>的大模型服务商（支持国产大模型：DeepSeek、通义千问、Kimi、智谱、豆包、硅基流动等）进行计算，使用的是<b>你自填的 Key</b>；该数据仅用于生成本次回复，不会带上你的邮箱等身份信息。</li>
+      <li>除上述与云服务、大模型服务的必要处理外，我们<b>不会</b>把你的数据提供给任何其他第三方。</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h3>6. 你的权利：查看与删除</h3>
+    <p class="tip">你随时可以在「我的账户 → 数据与隐私」中<b>一键删除你的全部云端数据</b>（训练记录、体能指标、授权令牌、AI 使用记录等）。删除<b>立即生效且不可恢复</b>；删除后如需再次使用，重新登录并绑定高驰即可。</p>
+    <div class="cfg-actions">
+      <a class="hero-btn" href="account.html">前往「我的账户」删除数据 →</a>
+    </div>
+  </section>
+
+  <section class="card">
+    <h3>7. 数据保留</h3>
+    <p class="tip">在你使用期间，数据会持续保存在云端直到你主动删除。你删除后，我们会从数据库中移除对应记录（云端备份可能因服务商机制在短期内滞后清除）。</p>
+  </section>
+
+  <section class="card">
+    <h3>8. 政策更新与联系</h3>
+    <p class="tip">本政策如有更新，会在本页标注「最后更新」日期。如对隐私有任何疑问，或需要协助删除数据，可通过你获取本服务的渠道联系运营者，或在「我的账户」页提交删除。</p>
+  </section>
+
+  <footer>跑不快 · 只读你的高驰数据 · 数据仅你本人可见 · © 2026 <a href="https://chesterlee.cn/" target="_blank" rel="noopener">Chester</a> · <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">陇ICP备2026009894号-2</a> · <a href="https://beian.mps.gov.cn/#/query/webSearch?code=62052302000062" target="_blank" rel="noopener"><img src="/assets/img/beian-police.png" alt="公安备案" width="16" height="16" style="vertical-align:-3px;margin-right:4px;border:0">甘公网安备62052302000062号</a></footer>
+</div>
+
+<script src="ui.js"></script>
+<script src="pwa.js"></script>
+<script src="i18n/zh-hant-data.js"></script>
+<script src="i18n/en.js"></script>
+<script src="i18n.js"></script>
+</body>
+</html>

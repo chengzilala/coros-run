@@ -1,0 +1,59 @@
+# 本地授权凭据（含 token，绝不上传仓库）
+.coros_token*.json
+.coros_client*.json
+
+# 佳明（Garmin）本机凭据与令牌（含隐私，绝不上传仓库）
+# 凭据优先存 macOS 钥匙串：security add-generic-password -U -s coros-run-garmin -a 邮箱 -w 密码
+.garmin_secret.json
+.garmin_tokens/
+.venv-garmin/
+
+# 自测产物
+tools*.json
+
+# 抓取到的个人训练数据（含位置/健康信息，不上传仓库）
+web/data/
+
+# 本机账户体系：Key 加密托管 + 机器密钥（含隐私，不上传仓库；web/data/ 已整体忽略，此处显式列出以便检索）
+web/data/accounts.json
+web/data/secret.key
+
+# 大模型 Key（含隐私，不上传仓库）
+web/llm_config.json
+
+# CloudBase 部署配置（含平台统一 Key 等环境变量，不上传仓库）
+cloudbaserc.json
+
+# 构建产物
+web/dist/
+dist/
+*.zip
+debug.log
+__debug_*
+
+# 私钥（一律不入库）
+*.pem
+
+# Trae 本地配置（规则/技能副本由「AI协作规划库」母本同步生成，不入库）
+.trae/
+
+# 个人文件（不入库）
+备忘录.md
+inbox/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# 系统
+.DS_Store
+Thumbs.db
+
+# 云函数私钥（自定义登录，本机生成，绝不入库）
+cloud/functions/ps-login/tcb_custom_login.json
+
+# 分享包 / 日志（本机产物）
+.trae-html-share-packages/
+*.log

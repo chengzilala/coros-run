@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0d1117">
+<title>我的账户 · 跑不快</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<script src="store.js"></script>
+<script>window.CorosStore && window.CorosStore.applyTheme();</script>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="theme-v2.css">
+<link rel="stylesheet" href="assets/ai-key/key-panel.css">
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="hero-main">
+      <a class="avatar cfg-back" href="./" title="返回看板">←</a>
+      <div>
+        <h1>我的账户</h1>
+        <div class="sub">邮箱验证码登录 · 数据存在云端</div>
+      </div>
+    </div>
+    <div class="hero-meta"><a class="pill" href="./">← 返回看板</a></div>
+  </header>
+
+  <!-- 账户（在线版） -->
+  <section class="card">
+    <h3>登录 <span class="hint">统一账户 · 一处登录，各作品通用</span></h3>
+    <div id="acctState" class="tip">正在读取登录态…</div>
+    <div class="cfg-actions">
+      <a class="hero-btn" id="acctLogin" href="login.html?next=account.html" style="display:none">登录 / 注册 →</a>
+      <button type="button" class="hero-btn" id="acctLogout" style="display:none">退出登录</button>
+    </div>
+    <div class="tip" data-ps-account-state></div>
+  </section>
+
+  <!-- 高驰同步 -->
+  <section class="card">
+    <h3>高驰同步 <span class="hint">绑定高驰账号，把训练数据抓到云端</span></h3>
+    <div class="tip">绑定后点「同步高驰数据」，看板即显示你的云端训练数据。</div>
+    <div id="bindStatus" class="msg">绑定状态：登录后自动读取…</div>
+    <div class="cfg-actions">
+      <button type="button" class="hero-btn" id="bindCoros">绑定高驰账号</button>
+      <button type="button" class="hero-btn" id="syncCoros">同步高驰数据</button>
+    </div>
+    <div id="bindMsg" class="msg"></div>
+  </section>
+
+  <!-- AI Key 托管（统一组件：AI Key 集成/component，样式与文案以母本为准） -->
+  <section class="card" id="aiKeyCard">
+    <h3>AI 复盘 Key <span class="hint">自行填写 · 加密托管</span></h3>
+    <div id="aiKeySlot"></div>
+  </section>
+
+  <!-- 数据与隐私 -->
+  <section class="card">
+    <h3>数据与隐私 <span class="hint">查看说明 · 一键删除</span></h3>
+    <div class="tip">本站在你授权后<b>只读</b>你的高驰数据，仅你本人可见。详见 <a href="privacy.html">隐私政策</a>。</div>
+    <div class="cfg-actions">
+      <a class="hero-btn" href="privacy.html">查看隐私政策</a>
+      <button type="button" class="hero-btn danger-text" id="wipeBtn">删除我的全部云端数据</button>
+    </div>
+    <div id="privacyMsg" class="msg"></div>
+  </section>
+
+  <!-- 外观 -->
+  <section class="card">
+    <h3>外观 <span class="hint">跟随系统 / 按时间（白天 7:00–19:00 用白天）/ 夜间 / 白天，仅本机、改后即刻生效</span></h3>
+    <div class="presets" id="themeTiers"></div>
+  </section>
+
+  <!-- 字号 -->
+  <section class="card">
+    <h3>字号 <span class="hint">仅本机、改后即刻生效</span></h3>
+    <div class="presets" id="fontTiers"></div>
+  </section>
+
+  <footer>数据存在云端 · 仅你本人可见；Key 加密存储 · © 2026 <a href="https://chesterlee.cn/" target="_blank" rel="noopener">Chester</a> · <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">陇ICP备2026009894号-2</a> · <a href="https://beian.mps.gov.cn/#/query/webSearch?code=62052302000062" target="_blank" rel="noopener"><img src="/assets/img/beian-police.png" alt="公安备案" width="16" height="16" style="vertical-align:-3px;margin-right:4px;border:0">甘公网安备62052302000062号</a></footer>
+</div>
+
+<script src="ui.js"></script>
+<script src="pwa.js"></script>
+<!-- AI Key 集成（母本：AI Key 集成/component，由 install.sh 同步） -->
+<script src="assets/ai-key/providers.js"></script>
+<script src="assets/ai-key/key-store.js"></script>
+<script src="assets/ai-key/key-panel.js"></script>
+<script src="account.js"></script>
+<!-- 登录态 + 绑定 / 同步高驰（云端） -->
+<script src="lib/cloudbase.full.js"></script>
+<script src="auth.js"></script>
+<script src="assets/js/account-sync.js"></script>
+<script>
+(function () {
+  if (!window.CorosAuth) { return; }
+  var $ = function (id) { return document.getElementById(id); };
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+    });
+  }
+
+  // ---------- 登录态 ----------
+  /** 把高驰资料整理成一句话（昵称 · 身高 · 体重 · 性别 · 年龄） */
+  function fmtCorosProfile(p) {
+    if (!p) { return ''; }
+    var bits = [];
+    if (p.nickname) { bits.push('昵称 ' + esc(p.nickname)); }
+    if (p.heightCm) { bits.push('身高 ' + esc(p.heightCm) + 'cm'); }
+    if (p.weightKg) { bits.push('体重 ' + esc(p.weightKg) + 'kg'); }
+    if (p.gender) { bits.push(esc(p.gender)); }
+    if (p.age) { bits.push('年龄 ' + esc(p.age)); }
+    return bits.join(' · ');
+  }
+  function renderBindStatus(s) {
+    var el = $('bindStatus');
+    if (!el) { return; }
+    if (!s || !s.ok) { el.textContent = '绑定状态：未登录或读取失败。'; return; }
+    if (s.bound) {
+      var t = s.updatedAt ? new Date(s.updatedAt).toLocaleString() : '';
+      el.innerHTML = '高驰绑定状态：<b class="ok">已绑定</b>'
+        + (s.region ? '（区域 ' + esc(s.region) + '）' : '')
+        + (t ? '，上次更新 ' + t : '');
+      var info = fmtCorosProfile(s.profile);
+      el.innerHTML += '<br>高驰用户：' + (info
+        ? info
+        : '<span class="hint">暂无资料，点下方「同步高驰数据」后显示</span>');
+    } else {
+      el.innerHTML = '高驰绑定状态：<b class="err">未绑定</b>，请点下方「绑定高驰账号」。';
+    }
+  }
+  function loadBindStatus() {
+    window.CorosAuth.callFunction('account', { action: 'status' }).then(renderBindStatus, function () { renderBindStatus(null); });
+  }
+
+  function renderState(u) {
+    var state = $('acctState'), login = $('acctLogin'), logout = $('acctLogout');
+    if (!state) { return; }
+    if (u) {
+      var uname = u.username || '';
+      var email = u.email || '';
+      if (uname && uname !== email) {
+        state.innerHTML = '已登录：<b>' + esc(uname) + '</b>'
+          + (email ? ' <span class="hint">' + esc(email) + '</span>' : '');
+      } else if (email) {
+        state.innerHTML = '已登录：<b>' + esc(email) + '</b>';
+      } else {
+        state.innerHTML = '已登录：<b>统一账户</b> <span class="hint">（本站数据已就绪）</span>';
+      }
+      if (login) { login.style.display = 'none'; }
+      if (logout) { logout.style.display = ''; }
+      loadBindStatus();
+    } else {
+      state.textContent = '未登录。登录后才能绑定高驰、同步数据。';
+      if (login) { login.style.display = ''; }
+      if (logout) { logout.style.display = 'none'; }
+      renderBindStatus(null);
+    }
+  }
+  function refreshState() {
+    window.CorosAuth.current().then(renderState, function () { renderState(null); });
+  }
+
+  var logout = $('acctLogout');
+  if (logout) {
+    logout.addEventListener('click', function () {
+      // 统一账户是本站唯一身份：退出时两边一起退
+      var p = (window.CorosPS && window.CorosPS.logout) ? window.CorosPS.logout() : Promise.resolve();
+      p.then(function () { return window.CorosAuth.signOut(); })
+        .then(function () { location.href = './'; }, function () { location.href = './'; });
+    });
+  }
+
+  // ---------- 绑定 / 同步高驰 ----------
+  var btn = $('bindCoros');
+  var sync = $('syncCoros');
+  var msg = $('bindMsg');
+  function show(t) { if (msg) { msg.textContent = t; } }
+
+  if (btn) {
+    btn.addEventListener('click', function () {
+      show('正在生成高驰授权链接…');
+      window.CorosAuth.current().then(function (u) {
+        if (!u) { show('请先登录（点上方「登录 / 注册」）再绑定高驰。'); return null; }
+        return window.CorosAuth.callFunction('coros-authorize');
+      }).then(function (res) {
+        if (res === null) { return; }
+        if (!res || !res.ok) { show('生成失败：' + ((res && res.error) || '未知错误')); return; }
+        show('正在跳转到高驰授权页…');
+        window.location.href = res.url;
+      }).catch(function (e) { show('失败：' + ((e && e.message) || e)); });
+    });
+  }
+
+  if (sync) {
+    sync.addEventListener('click', function () {
+      show('正在同步高驰训练数据…（首次较慢，请稍等）');
+      window.CorosAuth.current().then(function (u) {
+        if (!u) { show('请先登录（点上方「登录 / 注册」）再同步。'); return null; }
+        return window.CorosAuth.callFunction('coros-sync', { details: 5, days: 90 });
+      }).then(function (res) {
+        if (res === null) { return; }
+        if (!res || !res.ok) { show('同步失败：' + ((res && res.error) || '未知错误')); return; }
+        show('同步完成：活动 ' + res.activities + ' 条、每日指标 ' + res.metrics + ' 条、详情 ' + res.details
+          + ' 条（用时 ' + res.ms + 'ms）'
+          + (res.errors && res.errors.length ? '；部分工具失败：' + res.errors.join('、') : ''));
+        loadBindStatus();
+      }).catch(function (e) { show('失败：' + ((e && e.message) || e)); });
+    });
+  }
+
+  // ---------- 删除全部云端数据 ----------
+  var wipe = $('wipeBtn');
+  var pmsg = $('privacyMsg');
+  function pm(t) { if (pmsg) { pmsg.textContent = t; } }
+  if (wipe) {
+    wipe.addEventListener('click', function () {
+      window.CorosAuth.current().then(function (u) {
+        if (!u) { pm('请先登录（点上方「登录 / 注册」）再删除数据。'); return; }
+        window.CorosUI.confirmDialog({
+          title: '删除全部云端数据',
+          html: '将删除你在本站的<b>全部云端数据</b>：训练记录、体能指标、高驰授权令牌、AI 使用记录。<br><b>删除立即生效且不可恢复</b>。确定继续？',
+          confirmLabel: '确认删除', danger: true
+        }).then(function (ok) {
+          if (!ok) { return; }
+          var old = wipe.textContent;
+          wipe.disabled = true; wipe.textContent = '删除中…';
+          window.CorosAuth.callFunction('account', { action: 'delete' }).then(function (res) {
+            wipe.disabled = false; wipe.textContent = old;
+            if (!res || !res.ok) { pm('删除失败：' + ((res && res.error) || '未知错误')); return; }
+            pm('已删除你的全部云端数据 ✅ 需要时可重新绑定高驰。');
+            renderBindStatus({ ok: true, bound: false });
+          }).catch(function (e) {
+            wipe.disabled = false; wipe.textContent = old;
+            pm('删除失败：' + ((e && e.message) || e));
+          });
+        });
+      });
+    });
+  }
+
+  if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', refreshState); } else { refreshState(); }
+})();
+</script>
+<script src="i18n/zh-hant-data.js"></script>
+<script src="i18n/en.js"></script>
+<script src="i18n.js"></script>
+</body>
+</html>

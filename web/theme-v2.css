@@ -1,0 +1,354 @@
+/* ============================================================
+ * 跑不快 · 新视觉主题（v2）
+ * 白天 = A 杂志风（米白 / 藏青 / 衬线 / 细线）
+ * 黑夜 = B 运动风（近黑 / 荧光橙 / 粗字 / 直角）
+ * 用法：在所有页面的 style.css 之后引入本文件
+ * ============================================================ */
+
+:root,
+html[data-theme="dark"]{
+  --bg:#08090b;
+  --panel:#101215;
+  --panel2:#171a1e;
+  --line:#23272d;
+  --text:#f4f5f6;
+  --muted:#8b929a;
+  --text2:#c9ced4;
+  --accent:#ff5a1f;
+  --accent2:#ff8a4d;
+  --good:#3fb950;
+  --bad:#f85149;
+  --radius:0px;
+
+  --hero-bg:#101215;
+  --act-hover:#191d21;
+  --badge-bg:#2a1a10;
+  --badge-text:#ffa06b;
+  --ai-card-bg:#101215;
+  --ai-card-line:#2a2f35;
+  --ai-box-bg:#0d0f12;
+  --ai-box-text:#d7dce1;
+  --code-bg:#0b0d0f;
+  --toast-bg:#171a1e;
+  --danger-line:#3a1e1e;
+  --shadow:none;
+  --nav-bg:rgba(8,9,11,.86);
+
+  --font-serif:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue",sans-serif;
+  --font-num:"DIN Alternate","SF Pro Display",-apple-system,"Helvetica Neue",sans-serif;
+  --title-weight:700;
+  --title-ls:.01em;
+}
+
+html[data-theme="light"]{
+  --bg:#f4efe6;
+  --panel:#fbf8f2;
+  --panel2:#efe9dd;
+  --line:#ddd4c4;
+  --text:#12233f;
+  --muted:#6d7178;
+  --text2:#3c4a5c;
+  --accent:#e2551a;
+  --accent2:#b08d57;
+  --good:#2f7d43;
+  --bad:#b4392f;
+  --radius:2px;
+
+  --hero-bg:#12233f;
+  --act-hover:#f2ecdf;
+  --badge-bg:#e8dfd0;
+  --badge-text:#7a5a2a;
+  --ai-card-bg:#fbf8f2;
+  --ai-card-line:#ddd4c4;
+  --ai-box-bg:#f6f1e7;
+  --ai-box-text:#2c3745;
+  --code-bg:#f0eadf;
+  --toast-bg:#fbf8f2;
+  --danger-line:#e6c7c2;
+  --shadow:none;
+  --nav-bg:rgba(244,239,230,.9);
+
+  --font-serif:"Songti SC","STSong","Source Han Serif SC",Georgia,serif;
+  --font-num:"DIN Alternate","SF Pro Display",-apple-system,Georgia,serif;
+  --title-weight:600;
+  --title-ls:.03em;
+}
+
+/* ---------- 排版基调（B 方案：苹方正文 + 宋体大标题） ---------- */
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  font-size:15px;
+  line-height:1.85;
+  letter-spacing:.01em;
+}
+h1,h2,h3,h4{font-family:var(--font-serif)}
+/* 数字统一走等宽数字字体，跳动时不左右抖 */
+.kpi .v,.stat .v,.race-num b{
+  font-family:var(--font-num);
+  font-variant-numeric:tabular-nums;
+}
+.card h3{
+  font-weight:var(--title-weight);
+  letter-spacing:var(--title-ls);
+  font-size:19px;
+}
+
+/* ---------- 简笔线性图标（与 logo 同源：单线 / 圆头 / 无填充） ---------- */
+.ico{
+  width:16px;height:16px;flex:0 0 auto;
+  fill:none;stroke:currentColor;stroke-width:1.7;
+  stroke-linecap:round;stroke-linejoin:round;
+  vertical-align:-3px;
+}
+.focus-cta,
+.race-add{display:inline-flex;align-items:center;justify-content:center;gap:7px}
+.avatar .ico{width:24px;height:24px;stroke-width:1.9}
+
+/* ---------- 顶部导航按钮 ---------- */
+.hero-btn,
+.race-add,
+.more-btn,
+.coros-btn{
+  border-radius:2px;
+}
+.hero-btn{font-size:13.5px;letter-spacing:.06em}
+.hero-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+html[data-theme="light"] .hero-btn:hover{color:#fff}
+
+/* ---------- 看板首页：简笔首屏（本地 SVG，不依赖外链图片） ---------- */
+body.page-home .hero{
+  position:relative;
+  overflow:hidden;
+  border:0;
+  border-radius:var(--radius);
+  min-height:296px;
+  padding:24px 22px 18px;
+  background:#0b0c0e url("assets/img/hero-line.svg") center 38%/cover no-repeat;
+  box-shadow:0 18px 44px rgba(0,0,0,.24);
+}
+body.page-home .hero::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg,rgba(6,8,10,.32) 0%,rgba(6,8,10,.5) 42%,rgba(6,8,10,.88) 100%);
+}
+body.page-home .hero > *{position:relative;z-index:1}
+body.page-home .hero h1{
+  color:#fff;
+  font-family:var(--font-serif);
+  font-weight:var(--title-weight);
+  font-size:clamp(26px,3.6vw,42px);
+  letter-spacing:var(--title-ls);
+  text-shadow:0 2px 18px rgba(0,0,0,.35);
+}
+body.page-home .hero .sub{color:rgba(255,255,255,.72)}
+body.page-home .avatar{
+  width:58px;height:58px;border-radius:50%;
+  background:var(--accent);color:#fff;
+  font-size:24px;
+  box-shadow:0 0 0 1px rgba(255,255,255,.24);
+}
+body.page-home .hero .hero-btn{
+  background:rgba(255,255,255,.1);
+  border-color:rgba(255,255,255,.26);
+  color:#fff;
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+}
+body.page-home .hero .hero-btn:hover{background:var(--accent);border-color:var(--accent)}
+body.page-home .hero .pill{
+  background:rgba(255,255,255,.1);
+  border-color:rgba(255,255,255,.2);
+  color:rgba(255,255,255,.72);
+  border-radius:2px;
+  backdrop-filter:blur(6px);
+  -webkit-backdrop-filter:blur(6px);
+}
+body.page-home .hero .pill b{color:#fff}
+
+/* ---------- KPI：大数字 ---------- */
+.kpis{gap:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:18px}
+.kpi{
+  border:0;
+  border-right:1px solid var(--line);
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+  padding:24px 18px 22px;
+  transition:background .22s ease;
+}
+.kpi:last-child{border-right:0}
+.kpi:hover{background:color-mix(in srgb,var(--accent) 7%,transparent)}
+.kpi::before{display:none}
+.kpi .k{
+  color:var(--muted);
+  font-size:12.5px;
+  letter-spacing:.05em;
+}
+.kpi .v{
+  margin-top:10px;
+  font-size:clamp(26px,3.6vw,44px);
+  font-weight:var(--title-weight);
+  line-height:1;
+  letter-spacing:-.02em;
+}
+.kpi .v small{font-size:12.5px;letter-spacing:.02em}
+
+/* ---------- 卡片：去阴影、细线、留白 ---------- */
+.card{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:none;
+  padding:18px 18px 14px;
+  margin-bottom:16px;
+}
+.card h3::before{
+  width:2px;height:15px;border-radius:0;
+  background:var(--accent);
+  margin-right:10px;
+}
+.chart-foot{
+  border-top:1px dashed var(--line);
+  margin-top:10px;padding-top:10px;
+  font-size:11.5px;
+}
+html[data-theme="light"] .card{background:var(--panel)}
+html[data-theme="light"] .chart-foot{color:var(--muted)}
+
+/* 小卡片（stat / nw-item / act 等）统一细线 */
+.stat,.nw-item,.act,.race-card,.m-cell{
+  border-radius:2px;
+}
+.stat,.nw-item{background:var(--panel2)}
+
+/* ---------- 中文字号下限：次要文字 13px，标签 12.5px（12px 以下只给英文/数字） ---------- */
+.hint,.chart-foot,.tip,.pace-desc,.race-meta,.race-toggle,.race-date,.race-pick__d,
+.ra-row,.ra-note,.pl-mng-meta,.pl-hint,.kb-note,.kb-detail-sub,.kb-src__item,
+.kb-links__note,.kb-foot,.chat-suggest__label,.coach-tool-hint{font-size:13px;line-height:1.75}
+.kpi .k,.stat .k,.m-cell .k{font-size:12.5px;letter-spacing:.05em}
+.stat .v small,.race-num small{font-size:12.5px;letter-spacing:.02em}
+.seg button{font-size:13px}
+.act .date,.act .pace{font-size:12.5px}
+.act .badge{font-size:12px}
+.wk-row,.pl-row,.pb-row{font-size:13px}
+footer{font-size:12.5px}
+
+/* ---------- 吸顶导航 ---------- */
+.board-nav{
+  border-radius:0;
+  border-left:0;
+  border-right:0;
+  background:var(--nav-bg);
+  padding:0 2px;
+}
+.board-nav a{
+  border-radius:0;
+  padding:10px 13px;
+  font-size:15px;
+  letter-spacing:.05em;
+  font-weight:600;
+  border-bottom:2px solid transparent;
+}
+.board-nav a:hover,
+.board-nav a.active{
+  background:transparent;
+  border-bottom-color:var(--accent);
+  color:var(--text);
+}
+
+/* ---------- 状态条 ---------- */
+.readiness{
+  border-radius:0;
+  background:var(--panel);
+}
+.rd-label{letter-spacing:.04em}
+
+/* ---------- 图表标题 / 分段按钮 ---------- */
+.seg{border-radius:2px}
+.seg button{border-radius:0}
+.seg button.on{color:#fff}
+html[data-theme="light"] .seg button.on{color:#fff}
+
+/* ---------- 表格与活动 ---------- */
+.wk-table,.pl-table{border-radius:2px}
+.act{border-radius:2px;transition:transform .18s ease,border-color .18s ease,background .18s ease}
+.act:hover{transform:translateX(2px)}
+
+/* ---------- AI 卡 ---------- */
+.ai-card{
+  border-color:var(--line);
+  background:var(--panel);
+}
+.ai-tools button{background:var(--accent);color:#fff;border-radius:2px;border:0}
+.ai-box{background:var(--ai-box-bg);border-radius:2px}
+
+/* ---------- 页脚 ---------- */
+footer{
+  color:var(--muted);
+  border-top:1px solid var(--line);
+  padding-top:18px;
+  font-size:11.5px;
+  letter-spacing:.02em;
+}
+footer a{color:var(--text2);text-decoration:none}
+footer a:hover{color:var(--accent)}
+
+/* ---------- 滚动条 ---------- */
+html[data-theme="dark"] ::-webkit-scrollbar{width:10px;height:10px}
+html[data-theme="dark"] ::-webkit-scrollbar-thumb{background:#24282e;border-radius:0}
+html[data-theme="light"] ::-webkit-scrollbar-thumb{background:#d8cebd;border-radius:0}
+
+/* ---------- 其他页面（教练 / 知识库 / 配速 / 账户）适配 ---------- */
+.card,.hero,.modal-panel,.coros-dialog{border-radius:var(--radius)}
+html[data-theme="light"] .hero{background:var(--panel);color:var(--text)}
+html[data-theme="light"] .hero .hero-btn{background:var(--panel2);color:var(--text);border-color:var(--line)}
+html[data-theme="light"] .hero .hero-btn:hover{background:var(--accent);color:#fff}
+
+/* 移动端 */
+@media (max-width:640px){
+  body.page-home .hero{min-height:250px;padding:18px 16px 14px}
+  .kpi{padding:18px 12px}
+  .card{padding:14px 14px 10px}
+  .board-nav a{font-size:14px;padding:9px 11px}
+}
+
+/* ---------- 页脚横幅（看板 / 帮助 / 官网共用，参考 TrackSmith） ---------- */
+.foot-band{
+  background:#2a231d;
+  color:rgba(255,255,255,.62);
+  padding:76px 28px 58px;
+  text-align:center;
+}
+html[data-theme="dark"] .foot-band{background:#0a0b0d}
+.foot-mark{
+  display:flex;align-items:center;gap:38px;
+  max-width:1180px;margin:0 auto 32px;
+}
+.foot-rule{flex:1;height:1px;background:rgba(255,255,255,.2)}
+.foot-mark svg{
+  width:92px;height:44px;flex:0 0 auto;
+  fill:none;stroke:rgba(255,255,255,.68);
+  stroke-width:5;stroke-linecap:round;stroke-linejoin:round;
+}
+.foot-mark circle{fill:rgba(255,255,255,.68);stroke:none}
+.foot-copy{
+  margin:0 0 16px;
+  font-family:var(--font-serif);font-size:14px;letter-spacing:.06em;
+  color:rgba(255,255,255,.78);
+}
+.foot-copy a{color:inherit;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.28)}
+.foot-copy a:hover{border-bottom-color:rgba(255,255,255,.6)}
+.foot-links{
+  max-width:1180px;margin:0 auto;
+  display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:8px 22px;
+  font-size:12.5px;letter-spacing:.04em;line-height:1.9;
+  color:rgba(255,255,255,.58);
+}
+.foot-links a{color:rgba(255,255,255,.58);text-decoration:none;transition:.18s}
+.foot-links a:hover{color:#fff}
+@media (max-width:900px){
+  .foot-band{padding:56px 20px 44px}
+  .foot-mark{gap:18px;margin-bottom:26px}
+  .foot-mark svg{width:68px;height:34px}
+}

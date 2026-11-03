@@ -1,0 +1,9 @@
+{
+  "name": "coros-sync",
+  "version": "1.0.0",
+  "description": "对外版：抓取该用户高驰训练数据并写入云数据库（profiles/activities/metrics_daily）",
+  "main": "index.js",
+  "dependencies": {
+    "@cloudbase/node-sdk": "^2.9.0"
+  }
+}

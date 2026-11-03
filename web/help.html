@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#08090b">
+<meta name="description" content="跑不快 · 帮助中心：快速开始、看板指标说明、比赛与 PB 规则、AI 复盘与教练、配速计算器、数据来源与隐私、常见问题。">
+<title>帮助中心 · 跑不快</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<script src="store.js"></script>
+<script>window.CorosStore && window.CorosStore.applyTheme();</script>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="theme-v2.css">
+<link rel="stylesheet" href="help.css">
+</head>
+<body class="page-help">
+
+<header class="help-top">
+  <a class="help-brand" href="./" style="border:0;padding:0;background:none">
+    <img src="assets/img/logo-chip.svg" alt=""> 跑不快 · 帮助中心
+  </a>
+  <span class="spacer"></span>
+  <a href="./">返回看板</a>
+  <a href="landing.html">官网</a>
+  <button type="button" id="hTheme" title="手动切换白天 / 黑夜"></button>
+</header>
+
+<section class="help-hero">
+  <div class="kick">HELP CENTER</div>
+  <h1>看不明白的，都写在这儿</h1>
+  <p>主站只留图和数字，说明统一收到这一页。左边选章节，右边读内容；看板里遇到不懂的指标，回来查一眼就行。</p>
+  <div class="meta">
+    <span><b>9</b> 个章节</span>
+    <span>适用：线上看板 / 手机 H5 / 本机版</span>
+    <span>最后更新：2026-11</span>
+  </div>
+</section>
+
+<div class="help-grid">
+
+  <aside class="help-toc" aria-label="帮助目录">
+    <div class="toc-t">目录</div>
+    <nav id="tocNav">
+      <a href="#start"><span>01</span>快速开始</a>
+      <a href="#metrics"><span>02</span>看板指标说明</a>
+      <a href="#races"><span>03</span>比赛与 PB</a>
+      <a href="#ai"><span>04</span>AI 复盘与教练</a>
+      <a href="#pace"><span>05</span>配速计算器</a>
+      <a href="#knowledge"><span>06</span>跑步知识库</a>
+      <a href="#privacy"><span>07</span>数据来源与隐私</a>
+      <a href="#faq"><span>08</span>常见问题</a>
+      <a href="#brand"><span>09</span>名字与 logo</a>
+    </nav>
+  </aside>
+
+  <main class="help-main">
+
+    <!-- 01 -->
+    <section class="help-sec" id="start">
+      <div class="num"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 17.5c4-1 5.5-8 10-8s6.2 4 7.5-2"/><circle cx="21.4" cy="6.6" r="1.7"/></svg>01 / GET STARTED</div>
+      <h2>快速开始</h2>
+      <p class="sub">三件事：登录、绑定高驰、填一个 AI Key。只看图表的话，第三步可以跳过。</p>
+
+      <ol class="steps">
+        <li>
+          <b>登录统一账户</b>
+          <span>点顶部「登录」跳到账户中心（account.chesterlee.cn）。一处登录，本站与其它作品通用；首次登录会自动建档。</span>
+        </li>
+        <li>
+          <b>绑定高驰（只读）</b>
+          <span>按提示跳到高驰官方授权页，点一次同意。我们只读取你的训练数据，不会修改你的账号，也不需要你的密码。</span>
+        </li>
+        <li>
+          <b>填 AI Key（可选）</b>
+          <span>到「我的账户 → AI 复盘 Key」填入你自己的 Key，支持 DeepSeek、通义千问、豆包、智谱 GLM、Kimi、硅基流动、文心、MiniMax、阶跃星辰、混元等。填一次即可，之后 AI 复盘和教练都能用。</span>
+        </li>
+      </ol>
+
+      <div class="note">
+        <b>不填 Key 也能用。</b>跑量、配速、心率、训练负荷、五区配速、比赛与 PB 这些图表都是本地算的，不消耗任何 AI 额度；只有「生成复盘 / AI 教练对话」需要 Key。
+      </div>
+
+      <h3>线上版与本机版的区别</h3>
+      <table class="help-table">
+        <tr><th>使用方式</th><th>适合</th><th>数据在哪</th></tr>
+        <tr><td><b>线上看板</b>（run.chesterlee.cn）</td><td>手机、平板、公司电脑随时看</td><td>云端数据库，按你的账号隔离</td></tr>
+        <tr><td><b>本机版</b>（127.0.0.1:8920）</td><td>只在自己电脑上看，数据不出本机</td><td>本机 <code>web/data/</code>，不上传</td></tr>
+      </table>
+
+      <h3>本机版怎么启动</h3>
+      <p>在项目目录执行下面两条命令（第一次需要先授权高驰）：</p>
+      <ul>
+        <li><code>COROS_REGION=us python3 tools/coros_probe.py</code>：打开浏览器登录高驰并同意授权（中国区把 <code>us</code> 换成 <code>cn</code>，欧洲区换成 <code>eu</code>）。</li>
+        <li><code>python3 web/serve.py</code>：启动本机服务，浏览器打开 <code>http://127.0.0.1:8920</code>。</li>
+      </ul>
+      <p>本机版不接管统一账户登录，仍使用旧的邮箱登录方式；数据只落在本机，随时可删。</p>
+    </section>
+
+    <!-- 02 -->
+    <section class="help-sec" id="metrics">
+      <div class="num"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 19.5h17"/><path d="M5.2 16.2l4-5.2 3.4 3 6.2-8"/></svg>02 / METRICS</div>
+      <h2>看板指标说明</h2>
+      <p class="sub">每张卡片到底在看什么、数字怎么来的，按页面从上到下排。</p>
+
+      <h3>今日状态灯</h3>
+      <p>顶部那条彩色横条，综合高驰的恢复度、静息心率、HRV 等信号，给出三种状态：</p>
+      <ul>
+        <li><b>绿 · 状态良好</b>：可以按计划训练，强度课也能上。</li>
+        <li><b>黄 · 注意</b>：建议降一点强度，或者把强度课往后挪一天。</li>
+        <li><b>红 · 建议恢复</b>：优先睡觉和轻松跑，别硬顶强度。</li>
+      </ul>
+      <p>它是一句「今天该不该练」的提示，不是医疗诊断；身体明显不适时以感受为准。</p>
+
+      <h3>顶部 KPI</h3>
+      <div class="metric-list">
+        <div><b>最近 30 天跑量</b><span>滚动 30 天内的总距离，看近期训练量。</span></div>
+        <div><b>累计跑量</b><span>账号里有记录以来的总距离。</span></div>
+        <div><b>平均配速</b><span>所有跑步记录的平均配速，包含轻松跑，所以会偏慢。</span></div>
+        <div><b>平均心率</b><span>所有跑步记录的平均心率，用来观察整体强度。</span></div>
+      </div>
+
+      <h3>跑量日历</h3>
+      <p>一年 53×7 的方格，每一格是一天，<b>颜色越深表示当天跑得越多</b>。它最适合看两件事：训练是否连续、哪里出现了断档。右上角可以切换年份。</p>
+
+      <h3>跑量趋势</h3>
+      <p>可以切「周 / 月 / 年」三种粒度。虚线是这一段的平均值，用来判断当前是高于还是低于自己的常态。</p>
+
+      <h3>跑量规律 &amp; 纪录</h3>
+      <p>把训练频率、连续性和个人极值放在一起：数据跨度、训练天数、休息天数、平均每周、最长连训、最长单次、最大单日 / 单周 / 单月，并给出环比与同比（同期对比）。</p>
+
+      <h3>配速 &amp; 心率趋势</h3>
+      <p>最近 40 次跑步的配速与平均心率曲线。两条线一起看更有意义：配速变快、心率没涨，说明状态在变好。</p>
+
+      <h3>训练负荷</h3>
+      <p>短期负荷反映最近几天累积的疲劳，长期负荷反映基础体能。短期明显高于长期时，说明最近加量偏快，要注意恢复。</p>
+
+      <h3>强度分布（80/20）</h3>
+      <p>按周拆分「轻松跑量」和「高强度跑量」，并标出高强度占比。目标是不超过 <b>20%</b>；长期高于这条线，受伤和过度训练的风险会上升。</p>
+
+      <h3>心率效率</h3>
+      <p>用「速度 ÷ 平均心率」算出的效率值，越高说明同样心率下跑得越快。它只适合和自己比，不同人之间没有可比性。</p>
+
+      <h3>训练配速 · 五区</h3>
+      <p>按丹尼尔斯（Jack Daniels）的 VDOT 体系，从你的完赛预测推算五区配速：</p>
+      <table class="help-table">
+        <tr><th>区间</th><th>名称</th><th>感觉</th><th>用途</th></tr>
+        <tr><td><b>E</b></td><td>轻松跑</td><td>能边跑边聊天</td><td>打有氧基础，占训练量的大头</td></tr>
+        <tr><td><b>M</b></td><td>马拉松配速</td><td>有节奏但可持续</td><td>比赛目标配速，长距离中后段使用</td></tr>
+        <tr><td><b>T</b></td><td>阈值跑</td><td> comfortably hard</td><td>提升乳酸门槛，常见 20–40 分钟</td></tr>
+        <tr><td><b>I</b></td><td>间歇</td><td>呼吸明显急促</td><td>提升最大摄氧量，400m / 1km 反复</td></tr>
+        <tr><td><b>R</b></td><td>冲刺</td><td>很快、很短</td><td>提升配速与跑步经济性，200m / 400m</td></tr>
+      </table>
+
+      <h3>地点分布</h3>
+      <p>把带 GPS 的跑步按坐标聚类，自动识别城市 / 区县，统计各地跑量。识别不准的地点可以在「管理地点」里手动改名。</p>
+
+      <h3>活动列表与单次详情</h3>
+      <p>右侧（手机端在下方）是全部跑步记录。点任意一条，会弹出当次的关键指标和分段配速 / 心率。</p>
+
+      <h3>打卡图</h3>
+      <p>顶部「打卡图」一键导出 1080×1440 的 PNG，包含状态灯、KPI 和五区配速，适合发朋友圈或存年度记录。</p>
+    </section>
+
+    <!-- 03 -->
+    <section class="help-sec" id="races">
+      <div class="num"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.2 20.6V3.8"/><path d="M6.2 4.4h11.6l-2.3 3.9 2.3 3.9H6.2"/></svg>03 / RACES &amp; PB</div>
+      <h2>比赛与 PB</h2>
+      <p class="sub">把一次普通跑步变成比赛记录，系统才能算 PB 和比赛专项分析。</p>
+
+      <h3>两种比赛</h3>
+      <ul>
+        <li><b>已跑比赛</b>：点「标记比赛」，选一条跑步记录，填名称、定位（A / B / C）和目标。定位 A 是主目标赛事，B 是重要热身赛，C 是训练性质的小比赛。</li>
+        <li><b>计划比赛</b>：点「＋ 计划比赛」，填名称和日期，卡片上会显示倒计时，方便盯目标。</li>
+      </ul>
+
+      <h3>系统怎么「猜」这是比赛</h3>
+      <p>命中以下信号越多，越可能被识别为疑似比赛，你可以在标记弹窗里一键确认：</p>
+      <ul>
+        <li>距离接近标准比赛距离（5K / 10K / 半马 / 全马）；</li>
+        <li>配速明显快于你的日常训练；</li>
+        <li>距离明显长于平时；</li>
+        <li>发生在周末；</li>
+        <li><b>跑步机会减分</b>，因为比赛通常在户外。</li>
+      </ul>
+
+      <h3>个人 PB 怎么归类</h3>
+      <p>按最接近的标准距离自动归类到 <b>5K / 10K / 半马 / 全马</b> 四张表，显示成绩、配速和日期。距离差得太远的记录不会硬塞进 PB 表。</p>
+
+      <h3>比赛专项分析</h3>
+      <p>完赛卡可以展开分析，主要看这些：</p>
+      <table class="help-table">
+        <tr><th>指标</th><th>怎么看</th></tr>
+        <tr><td><b>前半 / 后半程配速</b></td><td>后半程掉速越少，配速控制越好。</td></tr>
+        <tr><td><b>正负分割</b></td><td>后半程比前半程快叫「负分割」，通常是理想跑法。</td></tr>
+        <tr><td><b>半程比值 R</b></td><td>后半程用时 ÷ 前半程用时，越接近 1 越均匀。</td></tr>
+        <tr><td><b>配速波动 CV</b></td><td>波动越小，节奏越稳。</td></tr>
+        <tr><td><b>心率漂移</b></td><td>后半程心率相对前半程的上升幅度，越小越好。</td></tr>
+        <tr><td><b>末段撞墙</b></td><td>最后几公里是否出现明显掉速。</td></tr>
+      </table>
+
+      <div class="note note--quiet">
+        比赛标记信息按账户码保存在本机 <code>races.json</code>（本机版），不会上传。线上版随账号数据一起存储。
+      </div>
+    </section>
+
+    <!-- 04 -->
+    <section class="help-sec" id="ai">
+      <div class="num"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.2 5.4h15.6v10.4H11l-4.6 3.4v-3.4H4.2z"/></svg>04 / AI</div>
+      <h2>AI 复盘与 AI 教练</h2>
+      <p class="sub">两个入口，分工不同：复盘是「看完这次训练给结论」，教练是「可以追问」。</p>
+
+      <h3>AI 中文复盘</h3>
+      <p>在看板底部选「整体复盘（最近训练）」或「只看最近一次」，点生成。输出固定四段：<b>总览 / 亮点 / 问题 / 接下来 2 周建议</b>。它读的是你已经算好的真实数据，不会凭空编数字。</p>
+
+      <h3>AI 跑步教练</h3>
+      <p>点右上角「教练」进入独立对话页，可以多轮追问，并切换四种人格：数据极客 / 老教练 / 直球 / 伙伴。同一个问题换人格，回答的语气和详细程度会不一样。</p>
+
+      <h3>四类问题怎么回答</h3>
+      <table class="help-table">
+        <tr><th>类型</th><th>例子</th><th>依据</th></tr>
+        <tr><td><b>自身训练</b></td><td>我这周该加量吗？</td><td>丹尼尔斯体系 + 你本人的看板数据</td></tr>
+        <tr><td><b>通用知识</b></td><td>什么是乳酸阈值？</td><td>模型自身知识</td></tr>
+        <tr><td><b>事实 / 赛事</b></td><td>全马世界纪录是多少？</td><td>优先引用本地已核验知识，并注明来源</td></tr>
+        <tr><td><b>实时信息</b></td><td>这周末有什么比赛？</td><td>如实说明未联网，给官方查询渠道，不编造</td></tr>
+      </table>
+
+      <h3>另外两个小工具</h3>
+      <ul>
+        <li><b>伤病知识卡</b>：说到膝盖、跟腱、足底等关键词时，给出分级和降级建议，仅供参考，不替代就医。</li>
+        <li><b>补给计算器</b>：按体重、时长、强度算碳水 / 水 / 钠，纯本地计算。</li>
+      </ul>
+
+      <h3>Key 与费用</h3>
+      <p>AI 用的是<b>你自己的 Key</b>，费用直接结算给你选的模型平台，不经本站加价。Key 在服务端加密托管，页面和前端拿不到明文；可在「我的账户」里随时更换或清除。平台的公共 Key 默认关闭，不会偷偷消耗额度。</p>
+    </section>
+
+    <!-- 05 -->
+    <section class="help-sec" id="pace">
+      <div class="num"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13.6" r="7.2"/><path d="M12 13.6V9.6M9.7 2.9h4.6M12 2.9v2.4"/></svg>05 / PACE CALCULATOR</div>
+      <h2>配速计算器</h2>
+      <p class="sub">输入一个成绩，换回一整套训练配速。</p>
+
+      <h3>怎么用</h3>
+      <ol>
+        <li>选距离：Marathon / Half Marathon / 10K / 5K / 1500m；</li>
+        <li>输入用时或配速，另一项会自动换算；</li>
+        <li>看结果：跑力（VDOT）、配速区间、五区训练参考、赛事预测。</li>
+      </ol>
+
+      <h3>输入格式</h3>
+      <ul>
+        <li>时间：直接输数字，<code>415</code> 会理解成 4:15，<code>25920</code> 会理解成 2:59:20；</li>
+        <li>配速：支持 km / mi 切换；</li>
+        <li>步频与步幅可以互相换算。</li>
+      </ul>
+
+      <div class="note note--quiet">
+        计算结果基于丹尼尔斯公式，是训练参考值，不是比赛保证。天气、赛道和当天状态都会影响实际表现。
+      </div>
+    </section>
+
+    <!-- 06 -->
+    <section class="help-sec" id="knowledge">
+      <div class="num"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.5C10.5 5 8.5 4.3 6 4.5c-.8 0-1.5.1-2.1.3v13.1c.6-.2 1.3-.3 2.1-.3 2.5-.2 4.5.5 6 2M12 6.5c1.5-1.5 3.5-2.2 6-2 .8 0 1.5.1 2.1.3v13.1c-.6-.2-1.3-.3-2.1-.3-2.5-.2-4.5.5-6 2zM12 6.5v13.1"/></svg>06 / KNOWLEDGE</div>
+      <h2>跑步知识库</h2>
+      <p class="sub">查得到出处的跑步常识，不用到处翻网页。</p>
+
+      <h3>里面有什么</h3>
+      <ul>
+        <li>常用跑步网站（置顶）：官方机构、赛事、越野与工具入口；</li>
+        <li>赛事组织与评级：中国田协（CAA）、世界田联（WA）两级体系；</li>
+        <li>大众马拉松选手等级表、专业选手等级表；</li>
+        <li>短中长跑世界纪录、路跑世界纪录；</li>
+        <li>世界马拉松大满贯、赛事认证与赛道丈量。</li>
+      </ul>
+
+      <p>每条内容底部都列了官方来源链接做背书（中国田协 / 国家体育总局 / 世界田联 / AIMS / AbbottWMM）。知识库是参考资料，不构成训练计划或医疗建议。</p>
+    </section>
+
+    <!-- 07 -->
+    <section class="help-sec" id="privacy">
+      <div class="num"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="4.6" y="10.4" width="14.8" height="9.6" rx="2.4"/><path d="M8.4 10.4V7.8a3.6 3.6 0 0 1 7.2 0v2.6"/></svg>07 / DATA &amp; PRIVACY</div>
+      <h2>数据来源与隐私</h2>
+      <p class="sub">只读、只存自己的、随时能删。</p>
+
+      <h3>数据从哪来</h3>
+      <p>通过<b>高驰官方 MCP</b>（OAuth 授权，只读）读取你自己的训练数据。区域端点按账号归属选择：中国区 <code>mcpcn.coros.com</code>、北美 <code>mcpus.coros.com</code>、欧洲 <code>mcpeu.coros.com</code>。本站账号属北美 / 国际区，所以命令统一用 <code>COROS_REGION=us</code>。</p>
+      <p>佳明（Garmin）在接入规划中：其官方接口目前主要面向企业开放，个人授权路径不同，等账号就绪后再开放。</p>
+
+      <h3>为什么只做高驰和佳明</h3>
+      <p>想把训练复盘做准，需要三件事同时成立：表够专业、用的人够多、数据够开放。高驰和佳明在这三条上都达标；大众智能表偏健康监测，专业训练维度少，数据也更封闭。</p>
+
+      <h3>数据存在哪</h3>
+      <ul>
+        <li><b>本机版</b>：抓取结果只落在本机 <code>web/data/</code>，不上传；高驰 token 也只存本机。</li>
+        <li><b>线上版</b>：训练数据存云端数据库，按你的账号 uid 隔离，别人看不到。</li>
+        <li><b>AI Key</b>：服务端加密托管，页面与前端都拿不到明文。</li>
+      </ul>
+
+      <h3>你的控制权</h3>
+      <ul>
+        <li>只读授权：不会修改你的高驰账号，也不会代你发布任何内容。</li>
+        <li>一键删除：在「我的账户 → 数据与隐私」可以删除自己的全部云端数据，二次确认后不可恢复。</li>
+        <li>不采集、不广告：没有第三方统计脚本，也没有广告 SDK。</li>
+      </ul>
+    </section>
+
+    <!-- 08 -->
+    <section class="help-sec" id="faq">
+      <div class="num"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.6"/><path d="M9.7 9.4a2.5 2.5 0 1 1 3.2 2.4c-.6.2-.9.7-.9 1.3v.5"/><circle cx="12" cy="16.7" r=".8" fill="currentColor" stroke="none"/></svg>08 / FAQ</div>
+      <h2>常见问题</h2>
+      <p class="sub">点开看答案。</p>
+
+      <div class="faq">
+        <details open>
+          <summary>登录后看板没有数据 / 一直是空的？</summary>
+          <p>先确认两件事：一是在「我的账户」里高驰是否显示已绑定；二是绑定后是否等同步完成（首次同步需要一点时间）。如果刚绑定就打开看板，刷新一次即可。仍然为空的话，重新授权一次高驰。</p>
+        </details>
+        <details>
+          <summary>为什么 AI 说「我未联网」？</summary>
+          <p>这是如实说明。AI 教练不接实时网络，赛事报名、临时改期、天气这类信息它不会编，会给你官方查询渠道。训练数据相关的回答不受影响，因为数据已经在看板里。</p>
+        </details>
+        <details>
+          <summary>手机上怎么像 App 一样打开？</summary>
+          <p>用手机浏览器打开 run.chesterlee.cn，登录后选择「添加到主屏幕」。之后从桌面图标进入，就是全屏的 H5 看板，不需要应用商店。</p>
+        </details>
+        <details>
+          <summary>数据多久更新一次？</summary>
+          <p>看板读取的是同步后的数据。线上版在登录后按需同步；本机版每次运行抓取命令时更新。刚跑完的记录如果还没同步，等一会儿再刷新。</p>
+        </details>
+        <details>
+          <summary>能把数据导出吗？</summary>
+          <p>可以导出「打卡图」（PNG，1080×1440）。原始训练数据属于你的高驰账号，可以在高驰官方渠道导出；本站不额外提供批量导出。</p>
+        </details>
+        <details>
+          <summary>AI Key 会不会泄露？</summary>
+          <p>Key 在服务端加密存储，页面和前端拿不到明文；日志里也不会打印。你可以在「我的账户」里随时更换或清除。建议使用单独的 Key 并设置额度上限。</p>
+        </details>
+        <details>
+          <summary>训练建议能当医嘱吗？</summary>
+          <p>不能。所有配速、负荷、伤病提示都是训练参考。出现持续疼痛、胸闷、眩晕等情况，请停止训练并就医。</p>
+        </details>
+      </div>
+    </section>
+
+    <!-- 09 -->
+    <section class="help-sec" id="brand">
+      <div class="num"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.6 18.6C7.4 17.4 8.6 8.4 12.6 8.4c3.5 0 4.9 4.4 7.8-2.4"/><circle cx="21" cy="5.6" r="1.8"/></svg>09 / BRAND</div>
+      <h2>名字与 logo</h2>
+      <p class="sub">「跑不快」不是自嘲，是一句训练观：慢就是快。</p>
+
+      <div class="brand-mark">
+        <svg viewBox="0 0 512 512" role="img" aria-label="跑不快 logo">
+          <defs>
+            <linearGradient id="brandLg" x1="105" y1="346" x2="396" y2="166" gradientUnits="userSpaceOnUse">
+              <stop offset="0" stop-color="#ff5a00"/>
+              <stop offset="0.55" stop-color="#ff7a1f"/>
+              <stop offset="1" stop-color="#ffb066"/>
+            </linearGradient>
+          </defs>
+          <rect width="512" height="512" rx="112" fill="#0d1117"/>
+          <path d="M105 230 C161 230 183 346 239 346 C297 346 315 166 336 166"
+                fill="none" stroke="url(#brandLg)" stroke-width="48"
+                stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="396" cy="166" r="26" fill="#ffb066"/>
+        </svg>
+        <div>
+          <b>跑不快</b>
+          <span>SLOW IS FAST</span>
+        </div>
+      </div>
+
+      <h3>名字的由来</h3>
+      <p>慢就是快（Slow is fast）——跑得慢，才跑得久；跑得久，才跑得快。所以叫「跑不快」：跑不快，才跑得快。</p>
+
+      <h3>图标为什么是一条线</h3>
+      <ul>
+        <li><b>一条配速线</b>：像看板里的配速曲线，也像一段跑动轨迹；不画跑鞋、不画手表，避免和别的运动 App 撞脸。</li>
+        <li><b>先沉后升</b>：线条先向下沉，再向上冲。下沉的那一段不是失误，是刻意留的——慢的那一段，换来后面的高度。</li>
+        <li><b>一个橙点</b>：线的尽头是「此刻的你」。数据一直在涨，但人只站在今天这一格。</li>
+      </ul>
+
+      <h3>颜色</h3>
+      <p>直接沿用看板本身的两套主题色，不另起一套品牌色：</p>
+      <table class="help-table">
+        <tr><th>颜色</th><th>色值</th><th>用在哪</th></tr>
+        <tr><td><b>近黑</b></td><td><code>#0d1117</code></td><td>黑夜模式底色 / 图标底</td></tr>
+        <tr><td><b>荧光橙</b></td><td><code>#ff6b1a → #ffa64d</code></td><td>主色、曲线渐变、按钮</td></tr>
+        <tr><td><b>亮橙点</b></td><td><code>#ffb066</code></td><td>曲线尽头的圆点</td></tr>
+        <tr><td><b>米白</b></td><td><code>#f2f5f9</code></td><td>白天模式底色</td></tr>
+      </table>
+
+      <h3>完整品牌稿</h3>
+      <p>图标（深 / 浅两版）、顶栏橙色小图标、横版标准组合，都在项目的 <code>brand/</code> 目录；打开 <code>brand/logo.html</code> 可以看全部规格与尺寸测试。</p>
+    </section>
+
+  </main>
+</div>
+
+<footer class="foot-band">
+  <div class="foot-mark">
+    <span class="foot-rule"></span>
+    <svg viewBox="0 0 320 120" aria-hidden="true">
+      <path d="M8 88 C62 88 76 28 122 28 C176 28 190 96 232 96 C262 96 274 46 292 46"></path>
+      <circle cx="306" cy="46" r="7"></circle>
+    </svg>
+    <span class="foot-rule"></span>
+  </div>
+
+  <p class="foot-copy">© 2026 <a href="https://chesterlee.cn/" target="_blank" rel="noopener">Chester</a></p>
+
+  <div class="foot-links">
+    <a href="./">看板</a>
+    <a href="landing.html">官网</a>
+    <a href="account.html">我的账户</a>
+    <a href="privacy.html">隐私政策</a>
+  </div>
+</footer>
+
+<button class="to-top" id="toTop" type="button" aria-label="回到顶部">↑</button>
+
+<script>
+(function () {
+  // 主题切换：默认按时间自动，点一下改为手动白天 / 黑夜
+  var tBtn = document.getElementById('hTheme');
+  function syncBtn() {
+    var d = document.documentElement.getAttribute('data-theme');
+    window.CorosStore.paintThemeIcon(tBtn, d === 'light' ? '夜间' : '白天');
+  }
+  tBtn.addEventListener('click', function () {
+    var d = document.documentElement.getAttribute('data-theme');
+    window.CorosStore.applyTheme(d === 'light' ? 'dark' : 'light');
+    syncBtn();
+  });
+  syncBtn();
+
+  // 目录高亮 + 返回顶部
+  var links = [].slice.call(document.querySelectorAll('#tocNav a'));
+  var secs = links.map(function (a) { return document.querySelector(a.getAttribute('href')); });
+  var toTop = document.getElementById('toTop');
+
+  function onScroll() {
+    var y = window.scrollY + 130;
+    var idx = 0;
+    for (var i = 0; i < secs.length; i += 1) {
+      if (secs[i] && secs[i].offsetTop <= y) idx = i;
+    }
+    links.forEach(function (a, i) { a.classList.toggle('active', i === idx); });
+    toTop.classList.toggle('show', window.scrollY > 600);
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  links.forEach(function (a) {
+    a.addEventListener('click', function () {
+      links.forEach(function (x) { x.classList.remove('active'); });
+      a.classList.add('active');
+    });
+  });
+
+  toTop.addEventListener('click', function () {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+})();
+</script>
+<script src="i18n/zh-hant-data.js"></script>
+<script src="i18n/en.js"></script>
+<script src="i18n.js"></script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 200" width="420" height="200" role="img" aria-label="跑不快 · SLOW IS FAST">
+  <defs>
+    <linearGradient id="chip" x1="16" y1="24" x2="168" y2="176" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ff6b1a"/>
+      <stop offset="1" stop-color="#ffa64d"/>
+    </linearGradient>
+  </defs>
+  <rect x="16" y="24" width="152" height="152" rx="33" fill="url(#chip)"/>
+  <path d="M47.17 92.28 C63.8 92.28 70.32 126.72 86.95 126.72 C104.17 126.72 109.52 73.28 115.75 73.28"
+        fill="none" stroke="#101418" stroke-width="14.25"
+        stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="133.56" cy="73.28" r="7.72" fill="#101418"/>
+  <text x="196" y="108" fill="#1f2328" font-size="62" font-weight="700" letter-spacing="2"
+        font-family="'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif">跑不快</text>
+  <text x="199" y="146" fill="#5c6672" font-size="14.5" font-weight="600" letter-spacing="5"
+        font-family="'Helvetica Neue',Arial,sans-serif">SLOW IS FAST</text>
+</svg>

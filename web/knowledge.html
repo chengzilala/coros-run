@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0d1117">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>跑步知识库 · 跑不快</title>
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<script src="store.js"></script>
+<script>window.CorosStore && window.CorosStore.applyTheme();</script>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="theme-v2.css">
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="hero-main">
+      <div class="avatar">
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.5C10.5 5 8.5 4.3 6 4.5c-.8 0-1.5.1-2.1.3v13.1c.6-.2 1.3-.3 2.1-.3 2.5-.2 4.5.5 6 2M12 6.5c1.5-1.5 3.5-2.2 6-2 .8 0 1.5.1 2.1.3v13.1c-.6-.2-1.3-.3-2.1-.3-2.5-.2-4.5.5-6 2zM12 6.5v13.1"/></svg>
+      </div>
+      <div>
+        <h1 id="kbHead">跑步知识库</h1>
+        <div class="sub" id="kbSubline">赛事认证 · 选手等级 · 世界纪录 · 大满贯</div>
+      </div>
+    </div>
+    <div class="hero-side">
+      <a class="hero-btn" href="./" title="返回看板">← 看板</a>
+      <button type="button" class="hero-btn" id="kbBack" hidden title="返回列表">← 列表</button>
+      <button type="button" class="hero-btn" id="themeToggle" title="切换白天 / 黑夜"></button>
+    </div>
+  </header>
+
+  <!-- 列表页 -->
+  <section class="card" id="kbListCard">
+    <h3>知识库 <span class="hint">点任意条目查看详情</span></h3>
+    <div class="kb-list" id="kbList"></div>
+    <div class="chart-foot">内容整理自中国田径协会、国家体育总局、世界田联等官方公开资料，每条均附官方来源链接。</div>
+  </section>
+
+  <!-- 详情页 -->
+  <section class="card" id="kbDetailCard" hidden>
+    <div class="kb-detail" id="kbDetail"></div>
+  </section>
+
+  <footer>资料仅供跑步爱好者参考 · 以官方最新公告为准 · © 2026 <a href="https://chesterlee.cn/" target="_blank" rel="noopener">Chester</a> · <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">陇ICP备2026009894号-2</a> · <a href="https://beian.mps.gov.cn/#/query/webSearch?code=62052302000062" target="_blank" rel="noopener"><img src="/assets/img/beian-police.png" alt="公安备案" width="16" height="16" style="vertical-align:-3px;margin-right:4px;border:0">甘公网安备62052302000062号</a></footer>
+</div>
+
+<script src="ui.js"></script>
+<script src="knowledge.js"></script>
+<script src="i18n/zh-hant-data.js"></script>
+<script src="i18n/en.js"></script>
+<script src="i18n.js"></script>
+</body>
+</html>

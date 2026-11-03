@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0d1117">
+<meta name="description" content="跑步思考：慢就是快（Slow is fast）。从《当我在跑步的时候，我在想些什么 · 2025 年度跑步总结》里整理出的一条跑步哲学路径。">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>跑步思考 · 跑不快</title>
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<script src="store.js"></script>
+<script>window.CorosStore && window.CorosStore.applyTheme();</script>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="theme-v2.css">
+<style>
+/* 跑步思考（专栏页）：复用 style.css 的主题变量，只加本页需要的排版 */
+.think-intro{
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+  padding:28px 24px;text-align:center;box-shadow:var(--shadow);margin-bottom:16px;
+}
+.think-intro p{margin:0}
+.think-quote{font-size:17px;line-height:2;color:var(--text)}
+.think-big{margin-top:18px !important;font-size:24px;font-weight:700;line-height:1.65}
+.think-big span{display:block;margin-top:6px;font-size:14px;font-weight:400;letter-spacing:.6px;color:var(--accent)}
+.think-src{margin-top:16px !important;font-size:12px;color:var(--muted)}
+
+.think-toc{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 6px}
+.think-toc a{
+  font-size:12.5px;color:var(--text2);text-decoration:none;background:var(--panel2);
+  border:1px solid var(--line);border-radius:999px;padding:5px 12px;
+}
+.think-toc a:hover{border-color:var(--accent);color:var(--text)}
+
+.think-chapter{margin:26px 0 8px}
+.think-ch-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.think-ch-no{font-size:22px;font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums}
+.think-ch-head h2{margin:0;font-size:19px}
+.think-ch-head p{margin:0;color:var(--muted);font-size:13px;line-height:1.7}
+
+.think-item{
+  background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--accent);
+  border-radius:var(--radius);padding:16px 18px;margin-bottom:12px;box-shadow:var(--shadow);
+}
+.think-item-h{font-size:14.5px;font-weight:700;margin-bottom:8px}
+.think-item blockquote{margin:0;color:var(--text2);font-size:14px;line-height:1.95}
+.think-mark{display:block;margin-top:8px;font-size:12px;color:var(--muted)}
+
+.think-path{
+  margin:26px 0 6px;padding:20px 22px;text-align:center;
+  background:var(--panel2);border:1px solid var(--line);border-radius:var(--radius);
+}
+.think-path p{margin:0;color:var(--text2);font-size:14px;line-height:2}
+.think-end{margin:18px 0 6px;text-align:center}
+.think-end b{display:block;font-size:21px;line-height:1.7}
+.think-end a{display:inline-block;margin-top:14px;font-size:13px;color:var(--accent);text-decoration:none}
+.think-end a:hover{text-decoration:underline}
+
+@media (max-width:600px){
+  .think-intro{padding:22px 16px}
+  .think-quote{font-size:15.5px}
+  .think-big{font-size:20px}
+  .think-item{padding:14px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="hero-main">
+      <div class="avatar">思</div>
+      <div>
+        <h1>跑步思考</h1>
+        <div class="sub">慢就是快 · 一条自己的跑步哲学路径</div>
+      </div>
+    </div>
+    <div class="hero-side">
+      <a class="hero-btn" href="./" title="返回看板">← 看板</a>
+      <a class="hero-btn" href="landing.html" title="官网介绍页">官网</a>
+      <button type="button" class="hero-btn" id="themeToggle" title="切换白天 / 黑夜"></button>
+    </div>
+  </header>
+
+  <!-- 题眼 -->
+  <section class="think-intro">
+    <p class="think-quote">跑步最难的不是坚持，而是迈出第一步。<br>当你不再需要理由去跑，跑步就成了一种存在方式。</p>
+    <p class="think-big">慢慢跑，直到你喜欢跑步为止。<span>Slow is fast.</span></p>
+    <p class="think-src">摘自《当我在跑步的时候，我在想些什么 · 2025 年度跑步总结》· 2026-02-17</p>
+  </section>
+
+  <nav class="think-toc" aria-label="跑步思考章节">
+    <a href="#why">01 为什么跑</a>
+    <a href="#how">02 怎么跑</a>
+    <a href="#alone">03 一个人跑</a>
+    <a href="#life">04 跑出来的生活</a>
+  </nav>
+
+  <!-- 01 -->
+  <section class="think-chapter" id="why">
+    <div class="think-ch-head">
+      <span class="think-ch-no">01</span>
+      <h2>为什么跑</h2>
+      <p>从「我这辈子都不可能喜欢跑步」，到「只是我想要」</p>
+    </div>
+
+    <article class="think-item">
+      <div class="think-item-h">跑步是人的本能</div>
+      <blockquote>自行车是对人腿部的延伸，我们渴望更快；羽毛球拍是对手部的延伸，我们渴望伸的更远；而跑步是对人体完全的掌控，所有一切都只是靠原始的身体，全身的运动。……跑步是人天生的技能……还有一些重要的原因，随时随地，一个人，蹬双鞋就可以跑了。</blockquote>
+    </article>
+
+    <article class="think-item">
+      <div class="think-item-h">只是我想要</div>
+      <blockquote>以前我想要，总有个外在的力量推我到这里。只有跑步，没有任何人，没有任何外在力量，我也没有什么理由，只是我想要。</blockquote>
+    </article>
+
+    <article class="think-item">
+      <div class="think-item-h">一切皆有可能</div>
+      <blockquote>一年多前，有人告诉我，我会喜欢跑步，我肯定当成这个人疯了，我这辈子都不可能会喜欢跑步……现在回过头来看，这个跑步过程，正是对【一切皆有可能】的实践。</blockquote>
+    </article>
+  </section>
+
+  <!-- 02 -->
+  <section class="think-chapter" id="how">
+    <div class="think-ch-head">
+      <span class="think-ch-no">02</span>
+      <h2>怎么跑</h2>
+      <p>慢下来，守住平衡，回答「跑多快才算快」</p>
+    </div>
+
+    <article class="think-item">
+      <div class="think-item-h">慢就是快</div>
+      <blockquote>要我总结跑步技巧，一个字跑，两个字慢跑，一段话：慢慢跑，直到你喜欢跑步为止。</blockquote>
+    </article>
+
+    <article class="think-item">
+      <div class="think-item-h">跑多快才算快？</div>
+      <blockquote>第一场参赛 10 公里 6 分 37 秒配速，那时渴望进入 5 分；第一次半马配速进入 5 分配速，那时渴望进入 4 分开头；半马配速进入 4 字开头，难道还要更快？一直有一个问题萦绕着我，跑多快才算快？</blockquote>
+    </article>
+
+    <article class="think-item">
+      <div class="think-item-h">101 次，依然痛苦</div>
+      <blockquote>我跑过 100 次的 10 公里，101 次依然很痛苦。</blockquote>
+    </article>
+
+    <article class="think-item">
+      <div class="think-item-h">阴阳不在两极，而在平衡</div>
+      <blockquote>跑步伤膝盖，还是不伤？在我想来，过度训练和过度不训练，都会伤到身体。道理古人早有说明，阴阳不在两极，而在平衡。</blockquote>
+    </article>
+
+    <article class="think-item">
+      <div class="think-item-h">「坚持跑步」是个奇怪的词</div>
+      <blockquote>坚持跑步，是我见过最奇怪的词组。……就好像坚持吃饭一样。想象一下，有个人，一本正经地跟你说：我们要学会坚持吃饭。</blockquote>
+    </article>
+  </section>
+
+  <!-- 03 -->
+  <section class="think-chapter" id="alone">
+    <div class="think-ch-head">
+      <span class="think-ch-no">03</span>
+      <h2>一个人跑</h2>
+      <p>孤独不是问题，重复里自有平静</p>
+    </div>
+
+    <article class="think-item">
+      <div class="think-item-h">喜欢一个人跑</div>
+      <blockquote>喜欢一个人跑，大概也只想一个人跑。我不是孤僻和冷漠，我只是一个 INTJ。</blockquote>
+    </article>
+
+    <article class="think-item">
+      <div class="think-item-h">跑过凌晨、白天、黑夜</div>
+      <blockquote>跑过凌晨、白天、黑夜，跑过雨天，酷暑，凛冬，跑过异地他乡，跑过来时的路，跑过过往的路，如此看来，未来只会更加未知。</blockquote>
+    </article>
+
+    <article class="think-item">
+      <div class="think-item-h">重复里的冥想</div>
+      <blockquote>一直对于冥想渴求，从未成功过。没有刻意的追求，在跑步中反而有时会达到这种状态：人类在重复性肢体动作中容易进入冥想状态，这种群体性律动构成了一种非宗教的世俗修行。重复、平静，这些都是重要的外在特征。</blockquote>
+    </article>
+
+    <article class="think-item">
+      <div class="think-item-h">听书，不听歌</div>
+      <blockquote>跑步喜欢听书，不喜欢听歌，听书会带来平静。听过的作者有，罗翔、王德峰、王东岳、蒋勋、傅佩荣。</blockquote>
+    </article>
+  </section>
+
+  <!-- 04 -->
+  <section class="think-chapter" id="life">
+    <div class="think-ch-head">
+      <span class="think-ch-no">04</span>
+      <h2>跑出来的生活</h2>
+      <p>跑步没讲什么大道理，它只是把日子过顺了</p>
+    </div>
+
+    <article class="think-item">
+      <div class="think-item-h">早起是个伪问题</div>
+      <blockquote>早起，难点不在于如何早早起来，而是回答这个问题：早起之后要干什么？……我的答案是跑步。所以，早起是个伪问题，不是真问题，真正的问题是：早起之后干什么？</blockquote>
+    </article>
+
+    <article class="think-item">
+      <div class="think-item-h">less is more</div>
+      <blockquote>买过很多装备，也扔了很多，踩过很多坑，现在有了自己的购物方式：少买一点，买好一点，穿久一点。这样挺好，多未必佳。</blockquote>
+    </article>
+
+    <article class="think-item">
+      <div class="think-item-h">身体的变化</div>
+      <blockquote>跑步让我没有了体重焦虑，几乎没有。跑步能戒烟，真的。</blockquote>
+    </article>
+  </section>
+
+  <!-- 路径收束 -->
+  <section class="think-path">
+    <p>不理解 → 痛苦 → 有一点适应 → 习惯 → 疯狂 → 厌跑 → 回归科学训练 → 规律地跑<br>跑的快不快，对我没以前重要。</p>
+  </section>
+
+  <div class="think-end">
+    <b>跑不快，才跑得快。</b>
+    <a href="./">回到看板，看看自己这一周跑得怎么样 →</a>
+  </div>
+
+  <footer>跑步思考 · 原文《当我在跑步的时候，我在想些什么 · 2025 年度跑步总结》· © 2026 <a href="https://chesterlee.cn/" target="_blank" rel="noopener">Chester</a> · <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">陇ICP备2026009894号-2</a> · <a href="https://beian.mps.gov.cn/#/query/webSearch?code=62052302000062" target="_blank" rel="noopener"><img src="/assets/img/beian-police.png" alt="公安备案" width="16" height="16" style="vertical-align:-3px;margin-right:4px;border:0">甘公网安备62052302000062号</a></footer>
+</div>
+
+<script src="ui.js"></script>
+<script>
+(function () {
+  var Store = window.CorosStore, doc = document;
+  var btn = doc.getElementById('themeToggle');
+  function isLight() { return doc.documentElement.getAttribute('data-theme') === 'light'; }
+  function sync() { Store.paintThemeIcon(btn); }
+  btn.onclick = function () { Store.applyTheme(isLight() ? 'dark' : 'light'); };
+  if (Store.onThemeChange) { Store.onThemeChange(sync); }
+  sync();
+})();
+</script>
+<script src="i18n/zh-hant-data.js"></script>
+<script src="i18n/en.js"></script>
+<script src="i18n.js"></script>
+</body>
+</html>

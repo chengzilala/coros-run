@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>跑不快 · Logo 设计稿</title>
+<style>
+  :root{
+    --bg:#0b0e13; --panel:#12171e; --panel2:#171d26; --line:#232b36;
+    --text:#e6edf3; --muted:#8b949e; --accent:#ff6b1a; --accent2:#ffa64d;
+    --light:#f2f5f9; --dark-text:#1f2328;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1000px;margin:0 auto;padding:0 28px 80px}
+  header.top{
+    position:sticky;top:0;z-index:5;backdrop-filter:blur(12px);
+    background:rgba(11,14,19,.82);border-bottom:1px solid var(--line);
+  }
+  .top-in{max-width:1000px;margin:0 auto;padding:14px 28px;display:flex;align-items:center;gap:12px}
+  .top-in img{width:34px;height:34px;border-radius:9px;display:block}
+  .top-in b{font-size:15px;letter-spacing:.5px}
+  .top-in span{color:var(--muted);font-size:12px;letter-spacing:2px;margin-left:auto}
+
+  .hero{display:grid;grid-template-columns:260px 1fr;gap:44px;align-items:center;padding:64px 0 52px}
+  .hero .big{width:260px;height:260px;display:block;border-radius:56px;box-shadow:0 30px 70px rgba(255,107,26,.16)}
+  .kicker{color:var(--accent);font-size:12px;letter-spacing:3px;font-weight:600;margin:0 0 14px}
+  h1{margin:0;font-size:42px;line-height:1.15;letter-spacing:6px;font-weight:800}
+  .tag{color:var(--muted);font-size:12px;letter-spacing:6px;margin-top:12px}
+  .lead{color:#b9c3ce;font-size:14.5px;line-height:1.9;margin:22px 0 0;max-width:520px}
+  .lead em{color:var(--accent2);font-style:normal}
+
+  section{padding:38px 0;border-top:1px solid var(--line)}
+  h2{margin:0 0 6px;font-size:17px;letter-spacing:1px;display:flex;align-items:center;gap:9px}
+  h2::before{content:"";width:3px;height:15px;border-radius:2px;background:var(--accent)}
+  .sub{color:var(--muted);font-size:12.5px;margin:0 0 24px}
+
+  .row{display:grid;gap:16px}
+  .two{grid-template-columns:1fr 1fr}
+  .card{background:#1a212b;border:1px solid var(--line);border-radius:16px;padding:28px;display:flex;
+        align-items:center;justify-content:center;min-height:210px;position:relative}
+  .card.light{background:var(--light);border-color:#e3e8ef}
+  .cap{position:absolute;left:16px;bottom:12px;font-size:11px;letter-spacing:1.5px;color:var(--muted)}
+  .card.light .cap{color:#8a94a1}
+
+  .sizes{display:flex;align-items:flex-end;gap:34px;flex-wrap:wrap}
+  .sz{display:flex;flex-direction:column;align-items:center;gap:10px;color:var(--muted);font-size:11px;letter-spacing:1px}
+  .sz img{border-radius:22%;display:block}
+
+  .locks{display:grid;gap:16px}
+  .lockcard{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:30px 26px;
+            display:flex;align-items:center;justify-content:center}
+  .lockcard.light{background:var(--light);border-color:#e3e8ef}
+  .lockcard img{width:100%;max-width:420px;height:auto;display:block}
+
+  .colors{display:flex;gap:14px;flex-wrap:wrap}
+  .c{flex:1;min-width:130px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel)}
+  .c .sw{height:76px}
+  .c .meta{padding:11px 13px;font-size:11.5px;line-height:1.7}
+  .c .meta b{display:block;font-size:12.5px;color:var(--text);letter-spacing:.5px}
+  .c .meta span{color:var(--muted);font-family:ui-monospace,Menlo,monospace}
+
+  .notes{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .note{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:20px}
+  .note b{display:block;font-size:13.5px;margin-bottom:9px}
+  .note b i{font-style:normal;color:var(--accent);margin-right:6px}
+  .note p{margin:0;color:var(--muted);font-size:12.5px;line-height:1.85}
+
+  .files{display:grid;gap:10px}
+  .file{display:flex;align-items:center;gap:12px;padding:13px 16px;background:var(--panel);
+        border:1px solid var(--line);border-radius:11px;font-size:13px;color:var(--text);text-decoration:none}
+  .file:hover{border-color:#3a4756}
+  .file span{color:var(--muted);font-size:12px;margin-left:auto;font-family:ui-monospace,Menlo,monospace}
+  .file code{font-family:ui-monospace,Menlo,monospace;color:var(--accent2)}
+
+  footer{color:var(--muted);font-size:12px;text-align:center;padding-top:34px}
+
+  @media (max-width:760px){
+    .hero{grid-template-columns:1fr;gap:28px;padding:40px 0}
+    .hero .big{width:180px;height:180px;border-radius:40px}
+    h1{font-size:32px;letter-spacing:4px}
+    .two,.notes{grid-template-columns:1fr}
+    .wrap{padding:0 20px 60px}
+    .top-in{padding:12px 20px}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <img src="logo-chip.svg" alt="跑不快图标">
+    <b>跑不快</b>
+    <span>BRAND · V1</span>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="hero">
+    <img class="big" src="logo-icon.svg" alt="跑不快 App 图标">
+    <div>
+      <p class="kicker">LOGO 设计稿</p>
+      <h1>跑不快</h1>
+      <div class="tag">SLOW IS FAST</div>
+      <p class="lead">一条配速线：先<em>沉下去</em>，再<em>向上走</em>。<br>下沉的那一段，就是「跑不快」——但正是它，换来了后面的高度。</p>
+    </div>
+  </div>
+
+  <section>
+    <h2>两种底色</h2>
+    <p class="sub">同一个符号，直接适配看板的黑夜 / 白天两套主题。</p>
+    <div class="row two">
+      <div class="card">
+        <img src="logo-icon.svg" alt="黑夜版图标" style="width:132px;height:132px;border-radius:30px">
+        <span class="cap">DARK · #0d1117</span>
+      </div>
+      <div class="card light">
+        <img src="logo-icon-light.svg" alt="白天版图标" style="width:132px;height:132px;border-radius:30px">
+        <span class="cap">LIGHT · #f2f5f9</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>尺寸测试</h2>
+    <p class="sub">从桌面图标到浏览器标签页小图标，线条都不糊。</p>
+    <div class="card" style="justify-content:flex-start">
+      <div class="sizes">
+        <div class="sz"><img src="logo-icon.svg" width="128" height="128" alt="128px"><span>128</span></div>
+        <div class="sz"><img src="logo-icon.svg" width="64" height="64" alt="64px"><span>64</span></div>
+        <div class="sz"><img src="logo-icon.svg" width="32" height="32" alt="32px"><span>32</span></div>
+        <div class="sz"><img src="logo-icon.svg" width="16" height="16" alt="16px"><span>16</span></div>
+      </div>
+      <span class="cap">可读性测试</span>
+    </div>
+  </section>
+
+  <section>
+    <h2>标准组合</h2>
+    <p class="sub">顶栏 / 官网 / 分享图统一用这一版：图标 + 中文名 + 英文口号。</p>
+    <div class="locks">
+      <div class="lockcard">
+        <img src="logo-lockup-dark.svg" alt="深色背景标准组合">
+      </div>
+      <div class="lockcard light">
+        <img src="logo-lockup-light.svg" alt="浅色背景标准组合">
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>色彩</h2>
+    <p class="sub">直接沿用看板现有配色，不新增品牌色。</p>
+    <div class="colors">
+      <div class="c"><div class="sw" style="background:#0d1117"></div><div class="meta"><b>近黑</b><span>#0d1117</span></div></div>
+      <div class="c"><div class="sw" style="background:linear-gradient(135deg,#ff6b1a,#ffa64d)"></div><div class="meta"><b>荧光橙</b><span>#ff6b1a → #ffa64d</span></div></div>
+      <div class="c"><div class="sw" style="background:#ffb066"></div><div class="meta"><b>亮橙点</b><span>#ffb066</span></div></div>
+      <div class="c"><div class="sw" style="background:#f2f5f9"></div><div class="meta"><b>米白</b><span>#f2f5f9</span></div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>设计说明</h2>
+    <p class="sub">三个元素，一个意思。</p>
+    <div class="notes">
+      <div class="note">
+        <b><i>01</i>一条配速线</b>
+        <p>像看板里的配速曲线，也像一段跑动的轨迹，不画跑鞋、不画手表，避免撞脸。</p>
+      </div>
+      <div class="note">
+        <b><i>02</i>先沉后升</b>
+        <p>线条先向下沉，再向上冲。慢的那一段不是失误，是刻意留的——「跑不快，才跑得快」。</p>
+      </div>
+      <div class="note">
+        <b><i>03</i>一个橙点</b>
+        <p>线的尽头有一个点：那是「此刻的你」。数据一直在涨，但你只站在今天这一格。</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>文件</h2>
+    <p class="sub">全部为矢量 SVG，可无损放大。</p>
+    <div class="files">
+      <a class="file" href="logo-icon.svg" target="_blank">App 图标 · 黑夜<code>logo-icon.svg</code><span>512×512</span></a>
+      <a class="file" href="logo-icon-light.svg" target="_blank">App 图标 · 白天<code>logo-icon-light.svg</code><span>512×512</span></a>
+      <a class="file" href="logo-chip.svg" target="_blank">顶栏橙色小图标<code>logo-chip.svg</code><span>512×512</span></a>
+      <a class="file" href="logo-lockup-dark.svg" target="_blank">标准组合 · 深色<code>logo-lockup-dark.svg</code><span>420×200</span></a>
+      <a class="file" href="logo-lockup-light.svg" target="_blank">标准组合 · 浅色<code>logo-lockup-light.svg</code><span>420×200</span></a>
+    </div>
+  </section>
+
+  <footer>跑不快 · 品牌资产 V1 · 本页仅为设计预览，未改动看板代码</footer>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 1000" width="1800" height="1000" role="img" aria-label="简笔跑者：一条路线冲向终点">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0.55" y2="1">
+      <stop offset="0" stop-color="#0a0c10"/>
+      <stop offset="0.55" stop-color="#0f131a"/>
+      <stop offset="1" stop-color="#171d27"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.68" cy="0.48" r="0.5">
+      <stop offset="0" stop-color="#ff6b1a" stop-opacity=".18"/>
+      <stop offset="1" stop-color="#ff6b1a" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <style>
+    /* 线条默认可见；动画只做点缀，动画不跑也不影响观看 */
+    .run-dot{animation:dot-pulse 2.6s ease-in-out infinite}
+    @keyframes dot-pulse{0%,100%{opacity:.55}50%{opacity:1}}
+    @media (prefers-reduced-motion:reduce){.run-dot{animation:none;opacity:1}}
+  </style>
+
+  <rect width="1800" height="1000" fill="url(#bg)"/>
+  <rect width="1800" height="1000" fill="url(#glow)"/>
+  <line x1="0" y1="818" x2="1800" y2="818" stroke="#f2ede4" stroke-opacity=".08" stroke-width="2"/>
+
+  <g stroke="#f2ede4" stroke-opacity=".20" stroke-width="14" stroke-linecap="round">
+    <path d="M872 382h108"/>
+    <path d="M846 470h78"/>
+    <path d="M886 558h58"/>
+  </g>
+  <path d="M900 640h100" stroke="#ff6b1a" stroke-opacity=".5" stroke-width="14" stroke-linecap="round"/>
+
+  <path d="M110 940 C330 902 372 742 592 720 S824 792 946 744"
+        fill="none" stroke="#ff6b1a" stroke-width="12"
+        stroke-linecap="round" stroke-linejoin="round"/>
+  <circle class="run-dot" cx="946" cy="744" r="17" fill="#ff6b1a"/>
+
+  <g transform="translate(1010 196) scale(1.12)" fill="none" stroke="#f2ede4" stroke-width="25"
+     stroke-linecap="round" stroke-linejoin="round">
+    <path d="M292 116 L236 200 L196 244"/>
+    <path d="M186 238 L146 344 L110 452 L52 472"/>
+    <path d="M302 106 L196 232"/>
+    <path d="M200 230 L316 254 L298 372 L352 392"/>
+    <path d="M302 106 L348 180 L398 124"/>
+  </g>
+  <circle cx="1348" cy="268" r="32" fill="#f2ede4"/>
+</svg>

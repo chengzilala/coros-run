@@ -1,0 +1,9 @@
+{
+  "name": "coros-callback",
+  "version": "1.0.0",
+  "description": "对外版：高驰 OAuth 回调，code 换 token 并加密入库",
+  "main": "index.js",
+  "dependencies": {
+    "@cloudbase/node-sdk": "^2.9.0"
+  }
+}

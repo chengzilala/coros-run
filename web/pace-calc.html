@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#e23a2e">
+<title>配速计算 · 跑不快</title>
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="theme-v2.css">
+<style>
+:root{
+  --red:#e23a2e; --red-deep:#c22f24;
+  --cream:#faf7f2; --ink:#1c1c1e; --muted:#8e8e93;
+  --gold:#c8a05a; --gold-strong:#c1904a;
+  --line:#ededed; --field:#f5f5f6; --row-head:#f0f0f0; --row-zebra:#f7f7f8;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{
+  background:#e9ecf1;color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  -webkit-font-smoothing:antialiased;font-size:15px;
+}
+.pc-app{
+  max-width:480px;margin:0 auto;min-height:100vh;background:var(--cream);
+  display:flex;flex-direction:column;box-shadow:0 0 24px rgba(15,23,42,.08);
+}
+
+/* ---------- 红色顶栏 ---------- */
+.nav{
+  position:sticky;top:0;z-index:6;
+  display:flex;align-items:center;justify-content:space-between;
+  background:var(--red);color:#fff;padding:12px 12px;min-height:50px;
+}
+.nav h1{margin:0;font-size:17px;font-weight:600;letter-spacing:.5px}
+.nav-back{
+  color:#fff;text-decoration:none;font-size:26px;line-height:1;
+  width:32px;height:32px;display:flex;align-items:center;justify-content:center;flex:0 0 auto;
+}
+.nav-extra{display:flex;gap:14px;align-items:center;font-size:17px;opacity:.92;width:56px;justify-content:flex-end}
+
+.pc-main{flex:1 1 auto}
+
+/* ---------- 表单区 ---------- */
+.form{background:#fff;padding:2px 14px 12px}
+.frow{display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--line);padding:11px 0;min-height:48px}
+.fk{width:46px;flex:0 0 auto;font-size:15px}
+.fk2{flex:0 0 auto;font-size:15px;margin-right:8px}
+.fval{
+  flex:1 1 auto;min-width:0;width:100%;border:0;outline:0;background:var(--field);
+  border-radius:7px;padding:9px 11px;font-size:15px;color:var(--ink);font-family:inherit;
+  font-variant-numeric:tabular-nums;text-align:right;
+}
+.fval::placeholder{color:#b8b8bd}
+.fval-btn{display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;text-align:center}
+.fval-sm{flex:0 0 62px;width:62px;text-align:right}
+.caret{font-style:normal;color:#9a9a9f;font-size:13px}
+.unit{
+  flex:0 0 auto;display:inline-flex;align-items:center;gap:3px;cursor:pointer;
+  background:none;border:0;font-family:inherit;font-size:15px;color:var(--ink);padding:6px 2px;
+}
+.frow-2{gap:16px}
+.frow-2 .grp{flex:1 1 0;display:flex;align-items:center;min-width:0}
+.funit{color:var(--muted);font-size:13px;margin-left:6px;flex:0 0 auto}
+.form-hint{color:#9b9b9b;font-size:12px;line-height:1.75;margin:10px 2px 0}
+
+/* ---------- 结果区 ---------- */
+.result{padding:14px 14px 6px}
+.hero-card{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  background:#fdfaf3;border:1px solid #f1e9d8;border-radius:14px;padding:14px 16px;margin-bottom:16px;
+}
+.hero-title{font-size:20px;font-weight:700;color:var(--gold-strong)}
+.hero-sub{color:var(--muted);font-size:13px;margin-top:4px}
+.power-badge{
+  flex:0 0 auto;width:58px;height:58px;border-radius:50%;
+  background:linear-gradient(160deg,#f0603c,#e23a2e);color:#fff;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.05;
+  box-shadow:0 3px 9px rgba(226,58,46,.35);
+}
+.power-badge b{font-size:17px;font-weight:700}
+.power-badge span{font-size:9px;opacity:.92;margin-top:1px}
+
+.sec-title{
+  font-size:15px;font-weight:700;color:#b23a26;margin:18px 0 8px;
+  padding-left:9px;position:relative;letter-spacing:.5px;
+}
+.sec-title::before{content:"";position:absolute;left:0;top:50%;transform:translateY(-50%);
+  width:3px;height:14px;border-radius:2px;background:#b23a26}
+.tbl-wrap{border-radius:9px;overflow:hidden}
+.tbl{width:100%;border-collapse:collapse;table-layout:fixed}
+.tbl th{background:var(--row-head);color:#4a4a4c;font-weight:600;font-size:13px;padding:9px 6px;text-align:center}
+.tbl td{padding:11px 6px;text-align:center;font-size:14px;font-variant-numeric:tabular-nums;color:var(--ink)}
+.tbl tbody tr:nth-child(odd) td{background:#fff}
+.tbl tbody tr:nth-child(even) td{background:var(--row-zebra)}
+.tbl .gold,.tbl .gold td{color:var(--gold-strong);font-weight:600}
+.tbl .dim{color:#b3b3b8}
+.share-hint{text-align:center;color:#b3b3b8;font-size:12px;margin:16px 0 10px}
+
+/* ---------- 距离下拉（弹层） ---------- */
+.sheet-mask{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:20;display:flex;flex-direction:column}
+.sheet-mask[hidden]{display:none}
+.sheet{background:#fff;border-radius:0 0 14px 14px;padding-bottom:6px;max-width:480px;width:100%;margin:0 auto}
+.sheet-head{display:flex;align-items:center;gap:10px;padding:13px 14px;border-bottom:1px solid var(--line)}
+.sheet-cur{flex:1 1 auto;background:var(--field);border-radius:7px;padding:9px 11px;text-align:center;color:var(--gold-strong);font-weight:600}
+.sheet-item{display:flex;align-items:center;justify-content:space-between;padding:15px 18px;font-size:15px;cursor:pointer}
+.sheet-item + .sheet-item{border-top:1px solid #f4f4f5}
+.sheet-item .ck{color:var(--gold-strong);font-weight:700}
+.sheet-item.on{color:var(--gold-strong);font-weight:600}
+</style>
+</head>
+<body>
+<div class="pc-app">
+
+  <header class="nav">
+    <a class="nav-back" href="./" title="返回看板" aria-label="返回看板">‹</a>
+    <h1>配速计算</h1>
+    <div class="nav-extra" aria-hidden="true"><span>⋯</span><span>◎</span></div>
+  </header>
+
+  <main class="pc-main">
+    <section class="form">
+      <div class="frow">
+        <span class="fk">距离</span>
+        <button type="button" class="fval fval-btn" id="distBtn" aria-haspopup="listbox">
+          <span id="distLabel">全马</span><i class="caret">⌄</i>
+        </button>
+      </div>
+      <div class="frow">
+        <span class="fk">用时</span>
+        <input class="fval" id="timeInput" inputmode="numeric" autocomplete="off" spellcheck="false"
+               aria-label="用时" placeholder="输入数字自动换算">
+      </div>
+      <div class="frow">
+        <span class="fk">配速</span>
+        <input class="fval" id="paceInput" inputmode="numeric" autocomplete="off" spellcheck="false"
+               aria-label="配速" placeholder="输入数字自动换算">
+        <button type="button" class="unit" id="paceUnit" title="切换配速单位 km / mi">
+          <span id="paceUnitLabel">km</span><i class="caret">⌄</i>
+        </button>
+      </div>
+      <div class="frow frow-2">
+        <div class="grp">
+          <span class="fk2">步频</span>
+          <input class="fval fval-sm" id="cadInput" inputmode="numeric" autocomplete="off" aria-label="步频">
+          <span class="funit">步/分</span>
+        </div>
+        <div class="grp">
+          <span class="fk2">步幅</span>
+          <input class="fval fval-sm" id="strideInput" inputmode="numeric" autocomplete="off" aria-label="步幅">
+          <span class="funit">厘米</span>
+        </div>
+      </div>
+      <p class="form-hint">浅灰色区域可点击输入。4 分 15 秒，输入 415 数字即可；2 小时 59 分 20 秒，输入 25920 数字即可。</p>
+    </section>
+
+    <section class="result">
+      <div class="hero-card">
+        <div class="hero-text">
+          <div class="hero-title" id="raceTitle">全马</div>
+          <div class="hero-sub" id="raceSub">—</div>
+        </div>
+        <div class="power-badge"><b id="powerVal">—</b><span>即时跑力</span></div>
+      </div>
+
+      <h2 class="sec-title">配速区间</h2>
+      <div class="tbl-wrap"><table class="tbl" id="intervalTbl"></table></div>
+
+      <h2 class="sec-title">训练参考</h2>
+      <div class="tbl-wrap"><table class="tbl" id="refTbl"></table></div>
+
+      <h2 class="sec-title">赛事预测</h2>
+      <div class="tbl-wrap"><table class="tbl" id="predTbl"></table></div>
+
+      <p class="share-hint">长按可分享</p>
+    </section>
+    <footer style="color:#8e8e93;font-size:12px;text-align:center;margin:8px 0 20px">© 2026 <a href="https://chesterlee.cn/" style="color:inherit" target="_blank" rel="noopener">Chester</a> · <a href="https://beian.miit.gov.cn/" style="color:inherit" target="_blank" rel="noopener">陇ICP备2026009894号-2</a> · <a href="https://beian.mps.gov.cn/#/query/webSearch?code=62052302000062" target="_blank" rel="noopener"><img src="/assets/img/beian-police.png" alt="公安备案" width="16" height="16" style="vertical-align:-3px;margin-right:4px;border:0">甘公网安备62052302000062号</a></footer>
+  </main>
+</div>
+
+<div class="sheet-mask" id="distMask" hidden>
+  <div class="sheet">
+    <div class="sheet-head"><span class="fk">距离</span><span class="sheet-cur" id="sheetCur">全马</span></div>
+    <div id="sheetList"></div>
+  </div>
+</div>
+
+<script src="pace-calc.js"></script>
+<script src="i18n/zh-hant-data.js"></script>
+<script src="i18n/en.js"></script>
+<script src="i18n.js"></script>
+</body>
+</html>

@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="zh-CN" data-t="rec" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>中文文字样式参考 · 跑不快</title>
+<style>
+/* ============ 三套文字系统：只改字体变量，颜色统一 ============ */
+:root{
+  --bg:#f6f4ef; --panel:#fffdf9; --line:#e0dbd0; --fg:#14213a; --muted:#6c7480;
+  --accent:#e2551a; --f-num:inherit;
+}
+html[data-theme="dark"]{ --bg:#0b0c0e; --panel:#141619; --line:#26292e; --fg:#f3f4f5; --muted:#8b929a; }
+
+/* A 对照：现在的方案（小字 + 宽字距 + 宋体 500 / 黑体 900） */
+html[data-t="now"]{
+  --f-ui:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  --f-display:"Songti SC","STSong",Georgia,serif;
+  --w-display:500; --ls-display:.02em;
+  --fs-h2:17px; --fs-body:14px; --lh-body:1.75;
+  --fs-nav:12px; --ls-nav:.14em; --ls-label:.16em; --fs-meta:12px;
+}
+html[data-t="now"][data-theme="dark"]{
+  --f-display:-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;
+  --w-display:900; --ls-display:-.01em;
+}
+
+/* B 推荐：苹方正文 + 宋体大标题（大字号才用衬线，中文大字距收紧） */
+html[data-t="rec"]{
+  --f-ui:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  --f-display:"Songti SC","STSong","Source Han Serif SC",Georgia,serif;
+  --f-num:"DIN Alternate","SF Pro Display",-apple-system,"Helvetica Neue",sans-serif;
+  --w-display:600; --ls-display:.03em;
+  --fs-h2:20px; --fs-body:15px; --lh-body:1.85;
+  --fs-nav:13.5px; --ls-nav:.06em; --ls-label:.06em; --fs-meta:13px;
+}
+html[data-t="rec"][data-theme="dark"]{
+  --f-display:-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;
+  --w-display:700; --ls-display:.01em;
+}
+
+/* C 全黑体：一套黑体，只靠字重和字号分层 */
+html[data-t="sans"]{
+  --f-ui:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  --f-display:var(--f-ui);
+  --f-num:"DIN Alternate","SF Pro Display",-apple-system,sans-serif;
+  --w-display:700; --ls-display:-.01em;
+  --fs-h2:19px; --fs-body:15px; --lh-body:1.85;
+  --fs-nav:13.5px; --ls-nav:.04em; --ls-label:.04em; --fs-meta:13px;
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg);color:var(--fg);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  -webkit-font-smoothing:antialiased;transition:background .25s,color .25s;
+}
+
+/* ============ 工具条 ============ */
+.bar{
+  position:sticky;top:0;z-index:9;
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  padding:12px 22px;background:var(--panel);border-bottom:1px solid var(--line);
+}
+.bar b{font-size:13px;letter-spacing:.04em;margin-right:8px}
+.bar button{
+  font:inherit;font-size:12.5px;padding:7px 14px;cursor:pointer;
+  background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:2px;
+  transition:.18s;
+}
+.bar button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.bar .sp{flex:1}
+
+/* ============ 样张容器 ============ */
+.sheet{max-width:940px;margin:0 auto;padding:64px 26px 120px}
+.sec{border-top:1px solid var(--line);padding:40px 0}
+.sec:first-of-type{border-top:0}
+.sec-tag{
+  font-size:10.5px;letter-spacing:.18em;color:var(--muted);margin-bottom:18px;
+  text-transform:uppercase;
+}
+
+/* 大标题 */
+.disp{
+  font-family:var(--f-display);font-weight:var(--w-display);
+  font-size:clamp(56px,10vw,118px);line-height:1.02;letter-spacing:var(--ls-display);
+  margin:0;
+}
+.disp-en{
+  font-family:var(--f-display);font-weight:var(--w-display);
+  font-size:13px;letter-spacing:.34em;color:var(--muted);margin-top:18px;text-transform:uppercase;
+}
+.lede{
+  font-family:var(--f-ui);font-size:var(--fs-h2);line-height:1.65;
+  color:var(--fg);margin:22px 0 0;max-width:30em;
+}
+
+/* 字阶 */
+.scale{display:grid;gap:0}
+.row{
+  display:grid;grid-template-columns:64px 1fr;gap:18px;align-items:baseline;
+  padding:14px 0;border-bottom:1px solid var(--line);
+}
+.row:last-child{border-bottom:0}
+.px{font-size:11px;color:var(--muted);letter-spacing:.04em;font-variant-numeric:tabular-nums}
+.s-h1{font-family:var(--f-display);font-weight:var(--w-display);font-size:44px;line-height:1.2;letter-spacing:var(--ls-display)}
+.s-h2{font-family:var(--f-display);font-weight:var(--w-display);font-size:var(--fs-h2);line-height:1.35}
+.s-body{font-family:var(--f-ui);font-size:var(--fs-body);line-height:var(--lh-body);letter-spacing:.01em}
+.s-meta{font-family:var(--f-ui);font-size:var(--fs-meta);line-height:1.7;color:var(--muted)}
+.s-label{font-family:var(--f-ui);font-size:11px;letter-spacing:var(--ls-label);color:var(--muted);text-transform:uppercase}
+
+/* 正文 */
+.body{font-family:var(--f-ui);font-size:var(--fs-body);line-height:var(--lh-body);letter-spacing:.01em;margin:0;max-width:34em}
+.body + .body{margin-top:14px}
+.list{margin:22px 0 0;padding:0;list-style:none;max-width:34em}
+.list li{
+  font-family:var(--f-ui);font-size:var(--fs-body);line-height:var(--lh-body);
+  padding:12px 0 12px 18px;border-top:1px solid var(--line);position:relative;
+}
+.list li::before{content:"";position:absolute;left:0;top:1.15em;width:7px;height:1px;background:var(--accent)}
+.list b{font-weight:600}
+
+/* 数字 */
+.nums{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.nums div{background:var(--panel);padding:20px 18px}
+.num{
+  font-family:var(--f-num);font-weight:700;font-size:38px;line-height:1;
+  font-variant-numeric:tabular-nums;letter-spacing:-.01em;
+}
+.num small{font-size:13px;font-weight:500;letter-spacing:.04em;margin-left:3px;color:var(--muted)}
+.num-cap{
+  font-family:var(--f-ui);font-size:11px;letter-spacing:var(--ls-label);
+  color:var(--muted);margin-top:10px;text-transform:uppercase;
+}
+
+/* UI 样张 */
+.ui{border:1px solid var(--line);background:var(--panel)}
+.ui-bar{
+  display:flex;align-items:center;gap:26px;padding:14px 20px;border-bottom:1px solid var(--line);
+  font-family:var(--f-ui);font-size:var(--fs-nav);letter-spacing:var(--ls-nav);color:var(--muted);
+}
+.ui-bar .logo{
+  font-family:var(--f-display);font-weight:var(--w-display);font-size:16px;
+  letter-spacing:.02em;color:var(--fg);margin-right:auto;
+}
+.ui-bar a{color:inherit;text-decoration:none}
+.ui-bar a.on{color:var(--fg);border-bottom:1px solid var(--fg);padding-bottom:2px}
+.ui-body{padding:22px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.btn{
+  font:inherit;font-family:var(--f-ui);font-size:12.5px;letter-spacing:var(--ls-label);
+  padding:10px 20px;background:var(--accent);color:#fff;border:0;border-radius:1px;cursor:pointer;
+}
+.btn.ghost{background:transparent;color:var(--fg);border:1px solid var(--line)}
+.tag{
+  font-family:var(--f-ui);font-size:11px;letter-spacing:var(--ls-label);
+  padding:5px 9px;border:1px solid var(--line);color:var(--muted);
+}
+
+/* 规格卡 */
+.spec{
+  position:fixed;right:18px;bottom:18px;z-index:9;width:250px;
+  background:var(--panel);border:1px solid var(--line);padding:14px 16px;
+  font-size:11.5px;line-height:1.8;color:var(--muted);
+  box-shadow:0 8px 24px rgba(0,0,0,.08);
+}
+.spec b{display:block;color:var(--fg);font-size:11px;letter-spacing:.12em;margin-bottom:8px}
+.spec code{color:var(--fg);font-size:11px}
+@media (max-width:700px){
+  .nums{grid-template-columns:1fr 1fr}
+  .row{grid-template-columns:48px 1fr;gap:12px}
+  .s-h1{font-size:32px}
+  .spec{display:none}
+  .ui-bar{gap:14px;font-size:12px;letter-spacing:.02em}
+}
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <b>中文文字样式 · 三套对照</b>
+  <button data-t="now">A 现在这套</button>
+  <button data-t="rec" class="on">B 推荐（苹方 + 宋体）</button>
+  <button data-t="sans">C 全黑体</button>
+  <span class="sp"></span>
+  <button id="theme">🌙 切黑夜</button>
+</div>
+
+<div class="sheet">
+
+  <section class="sec">
+    <div class="sec-tag">01 · 大标题</div>
+    <h1 class="disp">慢就是快</h1>
+    <div class="disp-en">Slow is fast</div>
+    <p class="lede">跑得慢，才跑得久；跑得久，才跑得快。</p>
+  </section>
+
+  <section class="sec">
+    <div class="sec-tag">02 · 字阶</div>
+    <div class="scale">
+      <div class="row"><span class="px">44 / 1.2</span><span class="s-h1">这周练得不错</span></div>
+      <div class="row"><span class="px">20 / 1.35</span><span class="s-h2">跑量、配速、心率</span></div>
+      <div class="row"><span class="px">15 / 1.85</span><span class="s-body">最近 30 天跑了 128.6 公里，平均配速 5:12，平均心率 158。强度分布比上周更健康。</span></div>
+      <div class="row"><span class="px">13 / 1.7</span><span class="s-meta">数据更新于 2026-11-02 · 只读你的高驰账号</span></div>
+      <div class="row"><span class="px">11</span><span class="s-label">Training load · 状态良好</span></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-tag">03 · 正文</div>
+    <p class="body">跑步的进步不在某一次训练里，而在连续几周的节奏里。把轻松跑真的跑轻松，把该用力的一次用到位，剩下的交给恢复。</p>
+    <p class="body">这页的字号只有三档，靠字号、字重和留白分层，不靠颜色堆叠。</p>
+    <ul class="list">
+      <li><b>轻松跑</b>　能说完整句子的强度，占每周跑量的八成。</li>
+      <li><b>强度课</b>　每周一到两次，剩下的时间用来恢复。</li>
+      <li><b>长距离</b>　慢，但比重够；周末一次就够。</li>
+    </ul>
+  </section>
+
+  <section class="sec">
+    <div class="sec-tag">04 · 数字</div>
+    <div class="nums">
+      <div><div class="num">128.6<small>km</small></div><div class="num-cap">近 30 天跑量</div></div>
+      <div><div class="num">5:12<small>/km</small></div><div class="num-cap">平均配速</div></div>
+      <div><div class="num">158<small>bpm</small></div><div class="num-cap">平均心率</div></div>
+      <div><div class="num">62.4<small>VO₂max</small></div><div class="num-cap">跑力</div></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-tag">05 · 界面文字</div>
+    <div class="ui">
+      <div class="ui-bar">
+        <span class="logo">跑不快</span>
+        <a href="#" class="on">看板</a>
+        <a href="#">比赛</a>
+        <a href="#">AI 教练</a>
+        <a href="#">帮助</a>
+      </div>
+      <div class="ui-body">
+        <button class="btn">开始使用</button>
+        <button class="btn ghost">了解更多</button>
+        <span class="tag">只读数据</span>
+        <span class="tag">本机运行</span>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div class="spec">
+  <b>当前实际生效</b>
+  <div>标题：<code id="spF">—</code></div>
+  <div>字号/行高：<code id="spS">—</code></div>
+  <div>正文：<code id="spB">—</code></div>
+</div>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var tabs = [].slice.call(document.querySelectorAll('.bar button[data-t]'));
+  var themeBtn = document.getElementById('theme');
+
+  tabs.forEach(function (btn) {
+    btn.onclick = function () {
+      root.dataset.t = btn.dataset.t;
+      tabs.forEach(function (b) { b.classList.toggle('on', b === btn); });
+      report();
+    };
+  });
+
+  themeBtn.onclick = function () {
+    var dark = root.dataset.theme === 'dark';
+    root.dataset.theme = dark ? 'light' : 'dark';
+    themeBtn.textContent = dark ? '🌙 切黑夜' : '☀️ 切白天';
+    report();
+  };
+
+  // 规格卡：直接读浏览器算出来的值，不用手写
+  function report() {
+    requestAnimationFrame(function () {
+      var d = getComputedStyle(document.querySelector('.disp'));
+      var b = getComputedStyle(document.querySelector('.body'));
+      document.getElementById('spF').textContent = d.fontFamily.split(',')[0].replace(/"/g, '');
+      document.getElementById('spS').textContent =
+        Math.round(parseFloat(d.fontSize)) + 'px / w' + d.fontWeight + ' / ls ' + d.letterSpacing;
+      document.getElementById('spB').textContent =
+        Math.round(parseFloat(b.fontSize)) + 'px / ' + b.lineHeight + ' / w' + b.fontWeight;
+    });
+  }
+  report();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="跑者头像">
+  <defs>
+    <linearGradient id="avBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ff6b1a"/>
+      <stop offset="1" stop-color="#ffa64d"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="512" height="512" fill="url(#avBg)"/>
+
+  <!-- 简笔跑者：粗圆线 + 实心圆头，沿用 logo 的橙底深线 -->
+  <g transform="translate(-65.5 -82.7) scale(1.26)" fill="none" stroke="#101418" stroke-width="30"
+     stroke-linecap="round" stroke-linejoin="round">
+    <path d="M312 172 L300 190 L232 300"/>
+    <path d="M302 196 L356 232 L372 176"/>
+    <path d="M298 198 L226 250 L186 238"/>
+    <path d="M232 300 L300 338 L322 404"/>
+    <path d="M232 300 L182 344 L132 308"/>
+  </g>
+  <circle cx="337.7" cy="102.5" r="43.5" fill="#101418"/>
+</svg>

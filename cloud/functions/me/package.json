@@ -1,0 +1,9 @@
+{
+  "name": "me",
+  "version": "1.0.0",
+  "description": "对外版登录骨架：返回当前登录用户身份",
+  "main": "index.js",
+  "dependencies": {
+    "@cloudbase/node-sdk": "^2.9.0"
+  }
+}

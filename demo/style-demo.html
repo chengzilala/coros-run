@@ -1,0 +1,536 @@
+<!doctype html>
+<html lang="zh-CN" data-style="magazine">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>跑不快 · 三套风格 Demo</title>
+<style>
+/* ============ 基础 ============ */
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg);color:var(--fg);
+  font-family:var(--font-body);
+  transition:background .35s ease,color .35s ease;
+  -webkit-font-smoothing:antialiased;
+}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.sec{padding:92px 0}
+.sec h2{
+  font-family:var(--font-title);font-size:clamp(26px,3.4vw,44px);
+  font-weight:var(--title-weight);margin:0 0 10px;letter-spacing:var(--title-ls);line-height:1.15;
+}
+.sec .lead{margin:0;color:var(--muted);font-size:15px;line-height:1.8;max-width:560px}
+.kicker{
+  display:inline-block;font-size:11.5px;letter-spacing:.22em;color:var(--accent);
+  font-weight:700;margin-bottom:18px;
+}
+
+/* ============ 三套主题变量 ============ */
+html[data-style="magazine"]{
+  --bg:#f4efe6; --fg:#12233f; --muted:#6d7178; --accent:#b08d57;
+  --line:rgba(18,35,63,.16); --card:#fbf8f2;
+  --radius:2px;
+  --font-title:"Songti SC","STSong",Georgia,"Times New Roman",serif;
+  --font-body:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  --title-weight:500; --title-ls:.03em;
+  --img-filter:saturate(.82) contrast(1.03) sepia(.06);
+  --num-size:clamp(40px,5vw,64px); --num-weight:500;
+}
+html[data-style="sport"]{
+  --bg:#090a0c; --fg:#ffffff; --muted:#9aa1a8; --accent:#ff5a1f;
+  --line:rgba(255,255,255,.14); --card:#121417;
+  --radius:0px;
+  --font-title:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue",sans-serif;
+  --font-body:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue",sans-serif;
+  --title-weight:900; --title-ls:.01em;
+  --img-filter:saturate(1.05) contrast(1.14);
+  --num-size:clamp(44px,6vw,84px); --num-weight:900;
+}
+html[data-style="zen"]{
+  --bg:#faf9f6; --fg:#20241f; --muted:#7d837a; --accent:#7a8b6f;
+  --line:rgba(32,36,31,.12); --card:#ffffff;
+  --radius:0px;
+  --font-title:"Songti SC","STSong",Georgia,serif;
+  --font-body:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  --title-weight:400; --title-ls:.14em;
+  --img-filter:saturate(.55) contrast(.98) brightness(1.03);
+  --num-size:clamp(34px,4.2vw,52px); --num-weight:400;
+}
+
+/* ============ 顶部切换条 ============ */
+.picker{
+  position:sticky;top:0;z-index:60;display:flex;gap:16px;align-items:center;flex-wrap:wrap;
+  padding:11px 20px;border-bottom:1px solid var(--line);
+  background:color-mix(in srgb,var(--bg) 86%,transparent);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+}
+.picker b{font-size:13px;letter-spacing:.06em}
+.picker .hint{font-size:12px;color:var(--muted);margin-left:auto}
+.switcher{display:flex;gap:6px;flex-wrap:wrap}
+.switcher button{
+  border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:12.5px;
+  color:var(--muted);transition:.2s;white-space:nowrap;
+}
+.switcher button:hover{color:var(--fg);border-color:var(--accent)}
+.switcher button.on{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:700}
+html[data-style="magazine"] .switcher button.on{color:#101820}
+
+/* ============ 首屏 ============ */
+.hero{position:relative;overflow:hidden}
+.hero-media{overflow:hidden;background:#222}
+.hero-media img{width:100%;height:100%;object-fit:cover;filter:var(--img-filter);transform:scale(1.04);transition:transform 1.2s ease}
+.hero:hover .hero-media img{transform:scale(1.1)}
+.hero-copy{position:relative;z-index:2}
+.hero h1{
+  font-family:var(--font-title);font-weight:var(--title-weight);
+  margin:0 0 16px;line-height:1.02;letter-spacing:var(--title-ls);
+}
+.hero .lead{color:var(--muted);margin:0 0 26px;line-height:1.85}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.cta{
+  display:inline-block;padding:13px 30px;font-size:14px;font-weight:700;letter-spacing:.04em;
+  background:var(--accent);color:#fff;border-radius:var(--radius);transition:.2s;
+}
+html[data-style="magazine"] .cta{color:#101820}
+.cta:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.ghost{
+  display:inline-block;padding:13px 22px;font-size:13.5px;color:var(--muted);
+  border-bottom:1px solid var(--line);transition:.2s;
+}
+.ghost:hover{color:var(--fg);border-color:var(--accent)}
+.hero-bgtext{display:none}
+.hero-side-label{display:none}
+
+/* A 杂志：大图 + 左下米色题卡 */
+html[data-style="magazine"] .hero{padding:0 0 8px}
+html[data-style="magazine"] .hero-media{height:78vh;min-height:420px}
+html[data-style="magazine"] .hero-copy{
+  position:absolute;left:6%;bottom:7%;width:min(560px,86%);
+  background:var(--bg);padding:34px 38px 30px;border-top:3px solid var(--accent);
+  box-shadow:0 18px 50px rgba(18,35,63,.12);
+}
+html[data-style="magazine"] .hero h1{font-size:clamp(46px,7.6vw,100px)}
+html[data-style="magazine"] .hero .lead{font-size:14.5px;max-width:420px}
+
+/* B 运动：全屏硬照 + 巨型粗字 */
+html[data-style="sport"] .hero{height:100vh;min-height:600px;display:flex;align-items:flex-end}
+html[data-style="sport"] .hero-media{position:absolute;inset:0}
+html[data-style="sport"] .hero-media::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(9,10,12,.15) 0%,rgba(9,10,12,.05) 40%,rgba(9,10,12,.92) 100%);
+}
+html[data-style="sport"] .hero-copy{padding:0 6% 72px;width:100%}
+html[data-style="sport"] .hero h1{font-size:clamp(64px,15vw,180px);letter-spacing:-.02em;line-height:.86;margin-bottom:22px}
+html[data-style="sport"] .hero .lead{font-size:15.5px;max-width:460px;color:#cfd4d9}
+html[data-style="sport"] .hero-bgtext{
+  display:block;position:absolute;top:8%;right:4%;z-index:1;
+  font-size:clamp(60px,12vw,170px);font-weight:900;line-height:.82;text-align:right;
+  color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.22);letter-spacing:-.02em;
+  pointer-events:none;
+}
+html[data-style="sport"] .kicker{background:var(--accent);color:#fff;padding:4px 10px;margin-bottom:24px}
+
+/* C 禅意：左文字右图，大量留白 */
+html[data-style="zen"] .hero{display:grid;grid-template-columns:1fr 1.12fr;min-height:86vh;align-items:center}
+html[data-style="zen"] .hero-media{height:86vh;order:2}
+html[data-style="zen"] .hero-copy{order:1;padding:60px 6vw}
+html[data-style="zen"] .hero h1{font-size:clamp(40px,6.4vw,84px);letter-spacing:.16em}
+html[data-style="zen"] .hero .lead{max-width:320px;font-size:14px;line-height:2.1}
+html[data-style="zen"] .hero-side-label{
+  display:block;position:absolute;left:26px;top:16%;writing-mode:vertical-rl;
+  font-family:var(--font-title);font-size:13px;letter-spacing:.4em;color:var(--muted);
+}
+
+/* ============ 数字 ============ */
+.numbers{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.num{padding:34px 20px 30px;border-right:1px solid var(--line);transition:background .25s}
+.num:last-child{border-right:0}
+.num:hover{background:color-mix(in srgb,var(--accent) 7%,transparent)}
+.num b{
+  display:block;font-family:var(--font-title);font-size:var(--num-size);font-weight:var(--num-weight);
+  font-variant-numeric:tabular-nums;line-height:1;letter-spacing:-.01em;
+}
+.num b .unit{font-size:.34em;font-weight:400;color:var(--muted);margin-left:6px;letter-spacing:0}
+.num span{display:block;margin-top:12px;font-size:12px;letter-spacing:.12em;color:var(--muted)}
+html[data-style="sport"] .num{padding:44px 22px 38px}
+html[data-style="sport"] .num span{letter-spacing:.2em;text-transform:uppercase;font-size:11px}
+html[data-style="zen"] .num{padding:40px 22px 36px}
+
+/* ============ 路线 ============ */
+.route{display:grid;grid-template-columns:.85fr 1.15fr;gap:48px;align-items:center}
+.route-chips{display:flex;gap:18px;flex-wrap:wrap;margin-top:26px}
+.route-chips div{font-size:12.5px;color:var(--muted)}
+.route-chips b{display:block;font-size:20px;color:var(--fg);font-family:var(--font-title);margin-bottom:2px}
+.route-svg{width:100%;height:auto;overflow:visible}
+.route-svg .grid-line{stroke:var(--line);stroke-width:1}
+.route-svg .track{
+  fill:none;stroke:var(--accent);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;
+  stroke-dasharray:1400;stroke-dashoffset:1400;
+}
+.route-svg.draw .track{transition:stroke-dashoffset 2.4s cubic-bezier(.4,0,.2,1);stroke-dashoffset:0}
+.route-svg .kdot{fill:var(--bg);stroke:var(--accent);stroke-width:2;opacity:0;transition:opacity .4s}
+.route-svg.draw .kdot{opacity:1}
+.route-svg .start{fill:var(--accent)}
+.route-svg .end{fill:var(--fg)}
+
+/* ============ 训练卡横滑 ============ */
+.rail-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:26px}
+.rail-nav{display:flex;gap:8px}
+.rail-nav button{
+  width:38px;height:38px;border:1px solid var(--line);border-radius:50%;
+  color:var(--muted);transition:.2s;font-size:15px;
+}
+.rail-nav button:hover{color:var(--fg);border-color:var(--accent)}
+.rail{
+  display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;
+  padding-bottom:14px;cursor:grab;scrollbar-width:none;
+}
+.rail::-webkit-scrollbar{display:none}
+.rail.dragging{cursor:grabbing;scroll-snap-type:none}
+.run-card{
+  flex:0 0 286px;scroll-snap-align:start;background:var(--card);border:1px solid var(--line);
+  border-radius:var(--radius);overflow:hidden;transition:transform .25s,box-shadow .25s;
+}
+.run-card:hover{transform:translateY(-4px);box-shadow:0 16px 36px rgba(0,0,0,.12)}
+.run-media{position:relative;height:176px;overflow:hidden}
+.run-media img{width:100%;height:100%;object-fit:cover;filter:var(--img-filter);transition:transform .5s}
+.run-card:hover .run-media img{transform:scale(1.07)}
+.run-tag{
+  position:absolute;left:12px;top:12px;font-size:10.5px;letter-spacing:.14em;
+  background:rgba(9,10,12,.62);color:#fff;padding:4px 9px;border-radius:999px;backdrop-filter:blur(4px);
+}
+.run-body{padding:16px 18px 18px}
+.run-top{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+.run-top b{font-family:var(--font-title);font-size:21px;font-weight:var(--title-weight)}
+.run-top span{font-size:11.5px;color:var(--muted);letter-spacing:.08em}
+.run-stats{display:flex;gap:14px;margin-top:10px;font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.run-more{
+  max-height:0;overflow:hidden;opacity:0;margin:0;font-size:12.5px;line-height:1.75;color:var(--muted);
+  transition:max-height .35s ease,opacity .3s ease,margin .3s ease;
+}
+.run-card.open .run-more{max-height:90px;opacity:1;margin-top:12px}
+.run-hint{font-size:11.5px;color:var(--muted);letter-spacing:.1em}
+
+/* ============ AI 对话 ============ */
+.ai{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:30px 30px 26px}
+.chat{display:flex;flex-direction:column;gap:12px;min-height:120px}
+.msg{max-width:78%;padding:13px 17px;font-size:13.5px;line-height:1.8;border-radius:14px;animation:pop .35s ease}
+@keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.msg.me{align-self:flex-end;background:var(--accent);color:#fff}
+html[data-style="magazine"] .msg.me{color:#101820}
+.msg.ai{align-self:flex-start;background:color-mix(in srgb,var(--fg) 7%,transparent);color:var(--fg)}
+.chips{display:flex;gap:9px;flex-wrap:wrap;margin-top:20px}
+.chips button{
+  border:1px solid var(--line);border-radius:999px;padding:8px 16px;font-size:12.5px;color:var(--muted);transition:.2s;
+}
+.chips button:hover{border-color:var(--accent);color:var(--fg)}
+
+/* ============ 收尾 ============ */
+.final{padding:100px 0 80px;text-align:center;border-top:1px solid var(--line)}
+.final h2{font-family:var(--font-title);font-size:clamp(30px,5vw,62px);margin:0 0 22px;letter-spacing:var(--title-ls)}
+.final p{color:var(--muted);font-size:12.5px;margin-top:20px}
+footer{padding:26px 0 40px;border-top:1px solid var(--line);font-size:12px;color:var(--muted);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+/* ============ 滚动出现 ============ */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+
+/* ============ 响应式 ============ */
+@media(max-width:900px){
+  .route{grid-template-columns:1fr;gap:30px}
+  .numbers{grid-template-columns:repeat(2,1fr)}
+  .num:nth-child(2){border-right:0}
+  .num:nth-child(1),.num:nth-child(2){border-bottom:1px solid var(--line)}
+}
+@media(max-width:760px){
+  .sec{padding:64px 0}
+  html[data-style="magazine"] .hero-media{height:62vh;min-height:340px}
+  html[data-style="magazine"] .hero-copy{position:relative;left:auto;bottom:auto;width:auto;margin:-40px 16px 0;padding:26px 22px;box-shadow:0 14px 34px rgba(18,35,63,.12)}
+  html[data-style="magazine"] .hero h1{font-size:clamp(40px,12vw,64px)}
+  html[data-style="sport"] .hero{height:92vh;min-height:520px}
+  html[data-style="sport"] .hero-bgtext{top:6%;right:5%;font-size:22vw;opacity:.7}
+  html[data-style="sport"] .hero-copy{padding:0 22px 52px}
+  html[data-style="zen"] .hero{grid-template-columns:1fr;min-height:auto}
+  html[data-style="zen"] .hero-media{height:52vh;order:1}
+  html[data-style="zen"] .hero-copy{order:2;padding:38px 22px 46px}
+  html[data-style="zen"] .hero-side-label{display:none}
+  .picker{padding:9px 12px;gap:9px}
+  .picker .hint{display:none}
+  .switcher button{padding:5px 10px;font-size:11.5px}
+  .num{padding:26px 14px}
+  .ai{padding:20px 18px}
+  .msg{max-width:90%}
+  footer{flex-direction:column;gap:6px}
+}
+</style>
+</head>
+<body>
+
+<!-- 风格切换条 -->
+<header class="picker">
+  <b>跑不快 · 风格 Demo</b>
+  <div class="switcher" id="switcher">
+    <button data-pick="magazine" class="on">A 杂志 · 数据故事</button>
+    <button data-pick="sport">B 运动品牌</button>
+    <button data-pick="zen">C 极简禅意</button>
+  </div>
+  <span class="hint">同一套内容，三种皮肤 · 点上方切换</span>
+</header>
+
+<!-- 首屏 -->
+<section class="hero">
+  <div class="hero-media">
+    <img src="https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=lone%20runner%20on%20an%20empty%20city%20road%20at%20dawn%2C%20shot%20from%20behind%2C%20warm%20orange%20sunrise%20haze%2C%20cinematic%2035mm%20film%20photography%2C%20muted%20colors%2C%20shallow%20depth%20of%20field%2C%20no%20text&image_size=landscape_16_9" alt="清晨跑步">
+  </div>
+  <div class="hero-bgtext" aria-hidden="true">SLOW<br>IS FAST</div>
+  <div class="hero-side-label" aria-hidden="true">跑得慢 才跑得久</div>
+  <div class="hero-copy">
+    <span class="kicker">跑不快 · SLOW IS FAST</span>
+    <h1>慢就是快</h1>
+    <p class="lead">跑得慢，才跑得久；跑得久，才跑得快。</p>
+    <div class="hero-actions">
+      <a class="cta" href="#">进入看板</a>
+      <a class="ghost" href="#route">看看我的数据</a>
+    </div>
+  </div>
+</section>
+
+<!-- 四个数字 -->
+<section class="numbers">
+  <div class="num"><b data-count="186.4" data-dec="1">0</b><span>近 30 天跑量 <i class="unit">km</i></span></div>
+  <div class="num"><b data-count="42.1" data-dec="1">0</b><span>本周跑量 <i class="unit">km</i></span></div>
+  <div class="num"><b data-count="148" data-dec="0">0</b><span>平均心率 <i class="unit">bpm</i></span></div>
+  <div class="num"><b>5'12"</b><span>平均配速 <i class="unit">/km</i></span></div>
+</section>
+
+<!-- 路线 -->
+<section class="sec" id="route">
+  <div class="wrap route">
+    <div class="route-copy reveal">
+      <h2>这一年的路</h2>
+      <p class="lead">GPS 轨迹不用表格，直接画成一张地图。每一段跑过的路，都是你今年的成绩单。</p>
+      <div class="route-chips">
+        <div><b>128</b>次跑步</div>
+        <div><b>1,286</b>km</div>
+        <div><b>12,480</b>m 爬升</div>
+      </div>
+    </div>
+    <div class="reveal">
+      <svg class="route-svg" id="routeSvg" viewBox="0 0 620 380" role="img" aria-label="跑步路线示意">
+        <line class="grid-line" x1="0" y1="95" x2="620" y2="95"></line>
+        <line class="grid-line" x1="0" y1="190" x2="620" y2="190"></line>
+        <line class="grid-line" x1="0" y1="285" x2="620" y2="285"></line>
+        <line class="grid-line" x1="155" y1="0" x2="155" y2="380"></line>
+        <line class="grid-line" x1="310" y1="0" x2="310" y2="380"></line>
+        <line class="grid-line" x1="465" y1="0" x2="465" y2="380"></line>
+        <path class="track" pathLength="1400" d="M96 306 C 58 236, 74 154, 150 132 S 268 176, 322 208 S 404 268, 468 236 S 548 146, 566 186 S 556 296, 486 318 S 366 340, 300 306 S 206 236, 158 282 S 128 344, 96 306 Z"></path>
+        <circle class="kdot" cx="150" cy="132" r="4"></circle>
+        <circle class="kdot" cx="322" cy="208" r="4"></circle>
+        <circle class="kdot" cx="468" cy="236" r="4"></circle>
+        <circle class="kdot" cx="300" cy="306" r="4"></circle>
+        <circle class="start" cx="96" cy="306" r="6"></circle>
+        <circle class="end" cx="566" cy="186" r="6"></circle>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- 训练卡横滑 -->
+<section class="sec" style="padding-top:0">
+  <div class="wrap">
+    <div class="rail-head reveal">
+      <div>
+        <h2>本周训练</h2>
+        <p class="lead">左右拖动看每一次跑步，点开看一句点评。</p>
+      </div>
+      <div class="rail-nav">
+        <button id="railPrev" aria-label="上一张">←</button>
+        <button id="railNext" aria-label="下一张">→</button>
+      </div>
+    </div>
+    <div class="rail" id="rail">
+      <article class="run-card">
+        <div class="run-media"><img src="https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=running%20track%20lanes%20seen%20from%20above%20at%20dusk%2C%20geometric%20white%20lines%2C%20dark%20navy%20surface%2C%20minimal%20composition%2C%20cinematic%20film%20grain%2C%20no%20text&image_size=landscape_4_3" alt="操场"><span class="run-tag">间歇</span></div>
+        <div class="run-body">
+          <div class="run-top"><b>8×400m</b><span>周二</span></div>
+          <div class="run-stats"><span>8.4 km</span><span>4'05"</span><span>168 bpm</span></div>
+          <p class="run-more">前 4 组偏快，后 4 组掉了 6 秒；下次从 4'10" 起步，把最后一组跑成最快。</p>
+        </div>
+      </article>
+      <article class="run-card">
+        <div class="run-media"><img src="https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=empty%20asphalt%20road%20curving%20through%20morning%20mist%2C%20soft%20light%2C%20minimal%20cinematic%20photography%2C%20muted%20tones%2C%20no%20text&image_size=landscape_4_3" alt="晨跑公路"><span class="run-tag">轻松跑</span></div>
+        <div class="run-body">
+          <div class="run-top"><b>10.2 km</b><span>周四</span></div>
+          <div class="run-stats"><span>5'48"</span><span>142 bpm</span></div>
+          <p class="run-more">心率压在 145 以下，节奏很稳。这类慢跑就是你的「存款」，别嫌慢。</p>
+        </div>
+      </article>
+      <article class="run-card">
+        <div class="run-media"><img src="https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=trail%20runner%20on%20a%20mountain%20ridge%20at%20golden%20hour%2C%20wide%20minimalist%20shot%2C%20film%20grain%2C%20earthy%20muted%20tones%2C%20no%20text&image_size=landscape_4_3" alt="山径"><span class="run-tag">长距离</span></div>
+        <div class="run-body">
+          <div class="run-top"><b>25.0 km</b><span>周六</span></div>
+          <div class="run-stats"><span>5'39"</span><span>151 bpm</span></div>
+          <p class="run-more">后半程心率往上漂了 9 次/分，说明起步还是快了一点；下回前 10km 再慢 10 秒。</p>
+        </div>
+      </article>
+      <article class="run-card">
+        <div class="run-media"><img src="https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=close%20up%20of%20running%20shoes%20on%20wet%20asphalt%20in%20morning%20light%2C%20minimal%20cinematic%20still%20life%2C%20muted%20colors%2C%20no%20text&image_size=portrait_4_3" alt="跑鞋"><span class="run-tag">恢复跑</span></div>
+        <div class="run-body">
+          <div class="run-top"><b>5.0 km</b><span>周日</span></div>
+          <div class="run-stats"><span>6'25"</span><span>128 bpm</span></div>
+          <p class="run-more">这天的价值不在距离，而在「把腿跑活」。保持这个速度就对了。</p>
+        </div>
+      </article>
+    </div>
+    <div class="run-hint" style="margin-top:10px">← 拖动 / 点卡片展开 →</div>
+  </div>
+</section>
+
+<!-- AI 对话 -->
+<section class="sec" style="padding-top:0">
+  <div class="wrap">
+    <div class="reveal" style="margin-bottom:22px">
+      <h2>AI 复盘，像聊天一样</h2>
+      <p class="lead">不再是一大段分析，而是一问一答；想深究就再点一下。</p>
+    </div>
+    <div class="ai reveal">
+      <div class="chat" id="chat">
+        <div class="msg me">这周练得怎么样？</div>
+        <div class="msg ai">本周 42.1 km，比上周多 8%，节奏刚好。间歇质量不错，长距离偏快了一点。</div>
+      </div>
+      <div class="chips" id="chips">
+        <button data-q="week">看看下周建议</button>
+        <button data-q="long">为什么长距离要慢？</button>
+        <button data-q="rest">我需要休息吗？</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 收尾 -->
+<section class="final">
+  <div class="wrap">
+    <h2>慢就是快</h2>
+    <a class="cta" href="#">进入看板</a>
+    <p>这是风格 Demo，数据为示意 · 点顶部切换三种风格对比</p>
+  </div>
+</section>
+
+<footer class="wrap">
+  <span>跑不快 · 训练数据看板</span>
+  <span>Demo 仅供样式判断</span>
+</footer>
+
+<script>
+/* ---------- 风格切换 ---------- */
+const root = document.documentElement;
+document.getElementById('switcher').addEventListener('click', (e) => {
+  const btn = e.target.closest('button[data-pick]');
+  if (!btn) return;
+  root.dataset.style = btn.dataset.pick;
+  document.querySelectorAll('#switcher button').forEach(b => b.classList.toggle('on', b === btn));
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+/* ---------- 滚动出现 ---------- */
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(en => {
+    if (!en.isIntersecting) return;
+    en.target.classList.add('in');
+    if (en.target.id === 'routeSvg') en.target.classList.add('draw');
+    if (en.target.classList.contains('num')) countUp(en.target.querySelector('b'));
+    io.unobserve(en.target);
+  });
+}, { threshold: 0.25 });
+document.querySelectorAll('.reveal, #routeSvg, .num').forEach(el => io.observe(el));
+
+/* ---------- 数字滚动 ---------- */
+function countUp(el) {
+  if (!el || !el.dataset.count) return;
+  const target = parseFloat(el.dataset.count);
+  const dec = parseInt(el.dataset.dec || '0', 10);
+  const unit = el.querySelector('.unit');
+  const unitHTML = unit ? unit.outerHTML : '';
+  const dur = 1100;
+  const t0 = performance.now();
+  function tick(t) {
+    const p = Math.min((t - t0) / dur, 1);
+    const eased = 1 - Math.pow(1 - p, 3);
+    const val = (target * eased).toFixed(dec);
+    el.innerHTML = (target >= 1000 ? Number(val).toLocaleString() : val) + unitHTML;
+    if (p < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+
+/* ---------- 路线绘制（每次切换风格重画一次，保证可见） ---------- */
+const routeSvg = document.getElementById('routeSvg');
+function redrawRoute() {
+  routeSvg.classList.remove('draw');
+  void routeSvg.getBoundingClientRect();
+  if (routeSvg.getBoundingClientRect().top < window.innerHeight * 0.9) setTimeout(() => routeSvg.classList.add('draw'), 120);
+}
+document.getElementById('switcher').addEventListener('click', redrawRoute);
+
+/* ---------- 横向拖动 ---------- */
+const rail = document.getElementById('rail');
+let down = false, startX = 0, startLeft = 0, moved = 0;
+rail.addEventListener('pointerdown', (e) => {
+  down = true; moved = 0;
+  startX = e.clientX; startLeft = rail.scrollLeft;
+  rail.classList.add('dragging');
+  rail.setPointerCapture(e.pointerId);
+});
+rail.addEventListener('pointermove', (e) => {
+  if (!down) return;
+  const dx = e.clientX - startX;
+  moved = Math.abs(dx);
+  rail.scrollLeft = startLeft - dx;
+});
+rail.addEventListener('pointerup', (e) => {
+  down = false; rail.classList.remove('dragging');
+  try { rail.releasePointerCapture(e.pointerId); } catch (_) {}
+});
+rail.addEventListener('pointercancel', () => { down = false; rail.classList.remove('dragging'); });
+rail.addEventListener('click', (e) => {
+  if (moved > 8) return;
+  const card = e.target.closest('.run-card');
+  if (card) card.classList.toggle('open');
+});
+document.getElementById('railPrev').addEventListener('click', () => rail.scrollBy({ left: -304, behavior: 'smooth' }));
+document.getElementById('railNext').addEventListener('click', () => rail.scrollBy({ left: 304, behavior: 'smooth' }));
+
+/* ---------- AI 追问 ---------- */
+const replies = {
+  week: '下周三先来 6×400m，配速控制在 4\'10"；周日长距离 22km，前 10km 压到 5\'50"。总量比本周略降 5%。',
+  long: '长距离的目的不是「跑快」，而是让身体学会用脂肪供能、把慢肌纤维练耐。跑快了就变成一次中等强度课，恢复成本翻倍。',
+  rest: '近 7 天负荷 312，比 4 周均值高 12%，还在安全区。今晚睡够 7.5 小时就够，不用额外休息。'
+};
+document.getElementById('chips').addEventListener('click', (e) => {
+  const btn = e.target.closest('button[data-q]');
+  if (!btn) return;
+  const chat = document.getElementById('chat');
+  const me = document.createElement('div');
+  me.className = 'msg me';
+  me.textContent = btn.textContent.trim();
+  const ai = document.createElement('div');
+  ai.className = 'msg ai';
+  ai.textContent = replies[btn.dataset.q] || '';
+  chat.appendChild(me);
+  chat.appendChild(ai);
+  ai.scrollIntoView({ behavior: 'smooth', block: 'center' });
+});
+
+/* ---------- 首屏轻微视差 ---------- */
+const heroImg = document.querySelector('.hero-media img');
+window.addEventListener('scroll', () => {
+  const y = window.scrollY;
+  if (y < window.innerHeight) heroImg.style.transform = `translateY(${y * 0.08}px) scale(1.04)`;
+}, { passive: true });
+</script>
+</body>
+</html>

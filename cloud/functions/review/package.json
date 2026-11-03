@@ -1,0 +1,9 @@
+{
+  "name": "review",
+  "version": "1.0.0",
+  "description": "对外版：AI 中文复盘（平台统一 Key + 每日额度限流）",
+  "main": "index.js",
+  "dependencies": {
+    "@cloudbase/node-sdk": "^2.9.0"
+  }
+}

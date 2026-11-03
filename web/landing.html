@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#08090b">
+<meta name="description" content="跑不快：把高驰（COROS）训练数据做成看得顺眼的看板 + 中文 AI 复盘。跑量、配速、心率、比赛与 PB、五区配速，只读你的数据。">
+<meta property="og:title" content="跑不快 · 训练数据看板 + 中文 AI 复盘">
+<meta property="og:description" content="慢就是快。只读你的高驰账号，自动生成训练看板、比赛分析与中文 AI 复盘。电脑看板 + 手机 H5。">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="跑不快">
+<title>跑不快 · 训练数据看板 + 中文 AI 复盘</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<script src="store.js"></script>
+<script>window.CorosStore && window.CorosStore.applyTheme();</script>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="theme-v2.css">
+<link rel="stylesheet" href="landing.css">
+</head>
+<body class="page-landing">
+
+<header class="lp-top" id="lpTop">
+  <nav class="lp-nav" id="lpNav" aria-label="官网导航">
+    <a href="#dashboard">看板</a>
+    <a href="#races">比赛</a>
+    <a href="#ai">AI 教练</a>
+    <a href="#sources">数据来源</a>
+    <a href="help.html">帮助</a>
+  </nav>
+  <a class="lp-brand" href="./"><img src="assets/img/logo-chip.svg" alt=""><span>跑不快</span></a>
+  <div class="lp-top-actions">
+    <button type="button" class="lp-theme" id="lpTheme" title="切换白天 / 黑夜"></button>
+    <a class="lp-icon-btn" id="lpTopLogin" href="https://account.chesterlee.cn/login.html?productId=coros-run&amp;returnUrl=https%3A%2F%2Frun.chesterlee.cn%2F&amp;theme=light&amp;accent=%23f2620a" title="登录" aria-label="登录">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.6"></circle><path d="M4.8 20.2c.6-3.6 3.6-5.6 7.2-5.6s6.6 2 7.2 5.6"></path></svg>
+    </a>
+  </div>
+</header>
+
+<!-- 首屏：一张跑图 + 一句话 -->
+<section class="lp-hero">
+  <img class="lp-hero-img" src="assets/img/hero-run-2560.jpg"
+       srcset="assets/img/hero-run-1600.jpg 1600w, assets/img/hero-run-2560.jpg 2560w, assets/img/hero-run.jpg 4348w"
+       sizes="100vw" alt="大雾的路上，一位穿橙色外套的跑者独自前行" width="4348" height="2899" fetchpriority="high" decoding="async">
+  <div class="lp-hero-shade"></div>
+  <div class="lp-hero-inner">
+    <span class="lp-kicker">跑不快 · SLOW IS FAST</span>
+    <h1>慢就是快</h1>
+    <p class="lp-hero-line">跑得慢，才跑得久。<br>把高驰数据，变成你看得顺眼的看板。</p>
+    <div class="lp-cta">
+      <a class="lp-btn lp-btn--primary" id="lpPrimary" href="https://account.chesterlee.cn/login.html?productId=coros-run&amp;returnUrl=https%3A%2F%2Frun.chesterlee.cn%2F&amp;theme=light&amp;accent=%23f2620a">统一账户登录</a>
+      <a class="lp-btn lp-btn--ghost" href="#dashboard">看看能做什么</a>
+    </div>
+  </div>
+  <div class="lp-scroll-hint" aria-hidden="true">往下</div>
+</section>
+
+<!-- 三个产品事实，不是别人的数据 -->
+<section class="lp-facts">
+  <div class="lp-fact"><b>5</b><span>训练配速区间<br>E / M / T / I / R</span></div>
+  <div class="lp-fact"><b>80/20</b><span>轻松与高强度<br>跑量自动拆分</span></div>
+  <div class="lp-fact"><b>1080×1440</b><span>一键导出<br>打卡分享图</span></div>
+</section>
+
+<!-- GPS 轨迹：滚到视野里，路线自己画出来 -->
+<section class="lp-route" id="route">
+  <div class="lp-route-copy lp-reveal">
+    <span class="lp-kicker">YOUR ROUTE</span>
+    <h2>你的路，会被画出来</h2>
+    <p>GPS 轨迹不用表格。看板把每一次跑步还原成一条路线，配速和爬升都看得见。</p>
+    <div class="lp-route-chips">
+      <div><b>轨迹</b><span>按坐标还原</span></div>
+      <div><b>分段</b><span>每公里配速</span></div>
+      <div><b>爬升</b><span>海拔变化</span></div>
+    </div>
+  </div>
+  <div class="lp-route-art lp-reveal">
+    <svg class="lp-route-svg" id="lpRoute" viewBox="0 0 620 380" role="img" aria-label="跑步 GPS 轨迹示意">
+      <line class="grid-line" x1="0" y1="95" x2="620" y2="95"></line>
+      <line class="grid-line" x1="0" y1="190" x2="620" y2="190"></line>
+      <line class="grid-line" x1="0" y1="285" x2="620" y2="285"></line>
+      <line class="grid-line" x1="155" y1="0" x2="155" y2="380"></line>
+      <line class="grid-line" x1="310" y1="0" x2="310" y2="380"></line>
+      <line class="grid-line" x1="465" y1="0" x2="465" y2="380"></line>
+      <path class="track" pathLength="1400" d="M96 306 C 58 236, 74 154, 150 132 S 268 176, 322 208 S 404 268, 468 236 S 548 146, 566 186 S 556 296, 486 318 S 366 340, 300 306 S 206 236, 158 282 S 128 344, 96 306 Z"></path>
+      <circle class="kdot" cx="150" cy="132" r="4"></circle>
+      <circle class="kdot" cx="322" cy="208" r="4"></circle>
+      <circle class="kdot" cx="468" cy="236" r="4"></circle>
+      <circle class="kdot" cx="300" cy="306" r="4"></circle>
+      <circle class="start" cx="96" cy="306" r="6"></circle>
+      <circle class="end" cx="566" cy="186" r="6"></circle>
+    </svg>
+  </div>
+</section>
+
+<!-- 一句村上春树，给页面留个呼吸 -->
+<section class="lp-quote lp-reveal">
+  <blockquote>
+    <p>痛楚难以避免，<br>而磨难可以选择。</p>
+    <cite>村上春树《当我谈跑步时我谈些什么》</cite>
+  </blockquote>
+</section>
+
+<!-- 三张图卡 -->
+<section class="lp-features" id="dashboard">
+  <div class="lp-feat-head">
+    <span class="lp-kicker">WHAT YOU GET</span>
+    <h2>打开就看，不用读说明书</h2>
+  </div>
+
+  <div class="lp-feat-grid">
+  <a class="lp-card lp-reveal" href="help.html#metrics">
+    <div class="lp-card-media">
+      <img src="assets/img/art-board.svg" alt="训练看板示意" width="1200" height="900">
+      <span class="lp-card-tag">训练看板</span>
+    </div>
+    <div class="lp-card-body">
+      <h3>跑量 · 配速 · 心率</h3>
+      <p>最近的状态、负荷和强度分布，一屏看完，不用翻表格。</p>
+      <span class="lp-more">看指标说明 →</span>
+    </div>
+  </a>
+
+  <a class="lp-card lp-reveal" id="races" href="help.html#races">
+    <div class="lp-card-media">
+      <img src="assets/img/art-race.svg" alt="比赛与 PB 示意" width="1200" height="900">
+      <span class="lp-card-tag">比赛与 PB</span>
+    </div>
+    <div class="lp-card-body">
+      <h3>自动认出你的比赛</h3>
+      <p>标准距离自动归类 PB，前后半程和撞墙一眼看清。</p>
+      <span class="lp-more">看比赛规则 →</span>
+    </div>
+  </a>
+
+  <a class="lp-card lp-reveal" id="ai" href="help.html#ai">
+    <div class="lp-card-media">
+      <img src="assets/img/art-ai.svg" alt="AI 教练示意" width="1200" height="900">
+      <span class="lp-card-tag">AI 教练</span>
+    </div>
+    <div class="lp-card-body">
+      <h3>说人话的中文复盘</h3>
+      <p>基于你的真实数据给结论，还能多轮追问。</p>
+      <span class="lp-more">看 AI 怎么用 →</span>
+    </div>
+  </a>
+  </div>
+</section>
+
+<!-- 数据来源：短句 + 入口 -->
+<section class="lp-sources" id="sources">
+  <div class="lp-sources-copy">
+    <span class="lp-kicker">DATA</span>
+    <h2>只读你的数据</h2>
+    <p>通过高驰官方只读授权取数，不碰你的账号，也不会上传给别人。佳明线上暂不支持（官方接口无法替他人授权），可在本机版接入使用。</p>
+    <a class="lp-btn lp-btn--ghost" href="help.html#privacy">数据与隐私说明 →</a>
+  </div>
+  <div class="lp-sources-mark" aria-hidden="true">
+    <div><b>OAuth</b><span>只读授权</span></div>
+    <div><b>只存本机 / 你的账号</b><span>按 uid 隔离</span></div>
+    <div><b>随时可删</b><span>一键清除</span></div>
+  </div>
+</section>
+
+<!-- 底部行动 -->
+<section class="lp-final">
+  <h2>慢就是快</h2>
+  <a class="lp-btn lp-btn--primary" id="lpBottomLogin" href="https://account.chesterlee.cn/login.html?productId=coros-run&amp;returnUrl=https%3A%2F%2Frun.chesterlee.cn%2F&amp;theme=light&amp;accent=%23f2620a">开始使用</a>
+  <p>免费使用 · AI Key 自填 · 只读你的数据</p>
+</section>
+
+<footer class="foot-band">
+  <div class="foot-mark">
+    <span class="foot-rule"></span>
+    <svg viewBox="0 0 320 120" aria-hidden="true">
+      <path d="M8 88 C62 88 76 28 122 28 C176 28 190 96 232 96 C262 96 274 46 292 46"></path>
+      <circle cx="306" cy="46" r="7"></circle>
+    </svg>
+    <span class="foot-rule"></span>
+  </div>
+
+  <p class="foot-copy">© 2026 <a href="https://chesterlee.cn/" target="_blank" rel="noopener">Chester</a></p>
+
+  <div class="foot-links">
+    <a href="https://chesterlee.cn/" target="_blank" rel="noopener">Chester</a>
+    <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">陇ICP备2026009894号-2</a>
+    <a href="https://beian.mps.gov.cn/#/query/webSearch?code=62052302000062" target="_blank" rel="noopener"><img src="/assets/img/beian-police.png" alt="公安备案" width="15" height="15" style="vertical-align:-3px;margin-right:4px;border:0">甘公网安备62052302000062号</a>
+  </div>
+</footer>
+
+<script src="lib/cloudbase.full.js"></script>
+<script src="auth.js"></script>
+<script src="assets/js/account-sync.js"></script>
+<script src="landing.js"></script>
+<script src="i18n/zh-hant-data.js"></script>
+<script src="i18n/en.js"></script>
+<script src="i18n.js"></script>
+</body>
+</html>

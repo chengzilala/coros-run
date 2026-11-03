@@ -1,0 +1,9 @@
+{
+  "name": "ps-login",
+  "version": "1.0.0",
+  "description": "统一账户 → CloudBase 登录态（自定义登录票据）",
+  "main": "index.js",
+  "dependencies": {
+    "@cloudbase/node-sdk": "^2.9.0"
+  }
+}

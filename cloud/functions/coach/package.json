@@ -1,0 +1,9 @@
+{
+  "name": "coach",
+  "version": "1.0.0",
+  "description": "对外版：AI 跑步教练（多轮对话 · 平台统一 Key + 每日额度限流）",
+  "main": "index.js",
+  "dependencies": {
+    "@cloudbase/node-sdk": "^2.9.0"
+  }
+}
